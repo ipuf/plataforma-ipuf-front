@@ -15,29 +15,16 @@ export async function getGeoData (url) {
 
 export function getPopupContent (feature) {
   let content
-  
-  if (feature.geometry.type === 'Point') {
-    content = ''
-
-    if (Object.keys(feature.properties).includes('html_expo')) {
-      // content = feature.properties.html_expo
-      delete feature.properties.html_expo
-    }
     
-    const entries = Object.entries(feature.properties)
-    for (const [field, value] of entries) {
-      content += `<tr><th scope="row">${field}</th><td>${value}</td></tr>`
-    }
-    content = `<table>${content}</table>`
-    return content
-  
-  } else {
-    content = '<p>HUEHUE deu ruim</p>'
-    return content
+  const entries = Object.entries(feature.properties)
+  for (const [field, value] of entries) {
+    content += `<tr><th scope="row">${field}</th><td>${value}</td></tr>`
   }
+
+  return `<table>${content}</table>`
 }
 
-export function makeFeature (obj, lat, lng) {
+export function makePointFeature (obj, lat, lng) {
   return {
     "type": "Feature",
     "geometry": {

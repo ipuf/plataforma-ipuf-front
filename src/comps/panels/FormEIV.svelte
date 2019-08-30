@@ -5,7 +5,7 @@
   import Number from '../inputs/Number.svelte'
   import Date from '../inputs/Date.svelte'
   import { eiv, gerais } from '../../utils/arrays.js'
-  import { makeFeature, encodeCoords } from '../../utils/helpers.js'
+  import { makePointFeature, encodeCoords } from '../../utils/helpers.js'
   import { eivs, newCoords } from '../../utils/stores.js'
   
   const dispatch = createEventDispatcher()
