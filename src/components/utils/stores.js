@@ -1,11 +1,20 @@
 import { writable, derived } from 'svelte/store'
 
+export const map = writable('')
+
+export const features = writable('')
+
 export const user = writable('')
 
-export const newFeature = writable('')
-
-export const newCoords = derived(newFeature, 
-  $newFeature => $newFeature ? [$newFeature.getLatLng().lat.toPrecision(8), $newFeature.getLatLng().lng.toPrecision(8)] : ''
+export const coords = derived(features, 
+  ($features) => {
+    if ($features) {
+      $features.forEach((feature) => {
+        console.log(feature.geometry.coordinates, feature.geometry.coordinates)
+      })
+    }
+    
+  }
 )
 
 export const teste = writable({
