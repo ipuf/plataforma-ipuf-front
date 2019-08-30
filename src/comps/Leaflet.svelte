@@ -7,14 +7,15 @@
   setContext(key, {
     getMap: () => map
   })
-
+  
   export let lat
   export let lon
   export let zoom
 
-  let mapContainer
   let map
+  let mapContainer
   let latlong
+  let toggleEditContainer
 
   onMount(() => {
     const link = loadCss('https://unpkg.com/leaflet@1.5.1/dist/leaflet.css')
