@@ -8,13 +8,6 @@ export const newCoords = derived(newFeature,
   $newFeature => $newFeature ? [$newFeature.getLatLng().lat.toPrecision(8), $newFeature.getLatLng().lng.toPrecision(8)] : ''
 )
 
-export const teste = writable({
-  id: '',
-  a: '',
-  b: '',
-  c: ''
-})
-
 export const eivs = writable({
   id: '',
   categoria: ['', 'string'],
@@ -42,9 +35,3 @@ export const eivs = writable({
   data_atualiz: ['', 'string']
 })
 
-/* export const currentView = writable('')
-
-export const formProps = derived([currentView, teste, eivs],
-  ([$currentView, $teste, $eivs]) => ($currentView === 'teste') ? $teste : ($currentView === 'eivs') ? $eivs : ''
-)
- */

@@ -2,8 +2,9 @@
   import { onMount, getContext } from 'svelte'
   import { L, key } from '../utils/leaflet.js'
   import { db } from '../utils/firebase.js'
-  import { user, newFeature, eivs } from '../utils/stores.js'
   import { loadCss, makeFeatCol, getPopupContent, encodeCoords } from '../utils/helpers.js'
+  import { user, newFeature, eivs } from '../utils/stores.js'
+  import { allowedUids } from '../utils/arrays.js'
   import User from './panels/User.svelte'
   import FormEIV from './panels/FormEIV.svelte'
   
@@ -37,39 +38,33 @@
       sidebar = L.control.sidebar({ container: sideContainer }).addTo(map)
       mapData = L.featureGroup().addTo(map)
       
+      dataRef = db.collection('eivs')
+      dataRef.onSnapshot((querySnapshot) => {
+        const features = []
+        querySnapshot.forEach((doc) => { 
+          features.push(doc.data())
+        })
+        const featCol = makeFeatCol(features)
+        if (mapData) { mapData.clearLayers() }
+        const geoLayer = L.geoJSON(featCol, {
+          coordsToLatLng: (coords) => {  
+            return new L.LatLng(coords[0], coords[1], coords[2])
+          },
+          onEachFeature: (feature, layer) => {
+            layer._leaflet_id = feature.properties.id
+            layer.bindPopup(getPopupContent(feature), { minWidth: 125, maxWidth: 250 })
+            layer.addTo(mapData)
+          }
+        })
+      })
+
       sidebar.on('content', (e) => {
         switch (e.id) {
           case 'login':
-            // Clean stuff, prep for panel
-            if (mapData) { mapData.clearLayers() }
             if (drawControl) { map.removeControl(drawControl) }
             break
          
-          case 'formeiv':
-            /* Cleaning controls */
-            if (drawControl) { map.removeControl(drawControl) }
-
-            /* Prepping firebase for panel-related data */
-            dataRef = db.collection('eivs')
-            dataRef.onSnapshot((querySnapshot) => {
-              const features = []
-              querySnapshot.forEach((doc) => { 
-                features.push(doc.data())
-              })
-              const featCol = makeFeatCol(features)
-              if (mapData) { mapData.clearLayers() }
-              const geoLayer = L.geoJSON(featCol, {
-                coordsToLatLng: (coords) => {  
-                  return new L.LatLng(coords[0], coords[1], coords[2])
-                },
-                onEachFeature: (feature, layer) => {
-                  layer._leaflet_id = feature.properties.id
-                  layer.bindPopup(getPopupContent(feature), { minWidth: 125, maxWidth: 250 })
-                  layer.addTo(mapData)
-                }
-              })
-            })
-            
+          case 'formeiv': 
             /* Panel-specific events */
             mapData.on('click', (e) => {
               const featProps = e.layer.feature.properties
@@ -80,7 +75,7 @@
               Object.keys($eivs).forEach(k => $eivs[k] = '')
             })
 
-            if ($user) {
+            if ($user && allowedUids.includes($user.uid)) {
               drawControl = new L.Control.Draw({
                 edit: {
                   featureGroup: mapData,
@@ -112,22 +107,10 @@
                   .catch((e) => console.error(e + ', SHIT'))
               })
             })
-
-            /* map.on(L.Draw.Event.DELETED, (e) => {
-              e.layers.eachLayer((layer) => {
-                const id = layer._leaflet_id
-                dataRef.doc(id).delete()
-                  .then(() => console.log('Deletion successful'))
-                  .catch((e) => console.error(e + ', FUCK'))
-              })
-              $newFeature = ''
-            }) */
         }
       })
 
       sidebar.on('closing', (e) => {
-        /* Clean stuff */
-        if (mapData) { mapData.clearLayers() }
         if (drawControl) { map.removeControl(drawControl) }
         $newFeature = ''
       })
@@ -141,6 +124,13 @@
   })
 
 </script>
+
+<style>
+  p {
+    padding-top: 3%;
+    font-family: sans-serif;
+  }
+</style>
 
 <div bind:this={sideContainer} class="leaflet-sidebar collapsed">
 	<!-- nav tabs -->
@@ -171,10 +161,10 @@
         Formulário EIVs
         <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
       </h1>
-      {#if $user}
+      {#if $user && allowedUids.includes($user.uid)}
         <FormEIV on:message={formSubmitted}/>
       {:else}
-        <p>Faça login para habilitar o formulário.</p>
+        <p>Somente usuários habilitados podem utilizar o formulário.</p>
       {/if}
     </div>
 	</div>
