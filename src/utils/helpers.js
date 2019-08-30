@@ -7,34 +7,14 @@ export function loadCss (url) {
   return link
 }
 
-export async function getGeoData (url) {
-  const response = await fetch(url)
-  const data = await response.json()
-  return data
-}
-
 export function getPopupContent (feature) {
-  let content
-  
-  if (feature.geometry.type === 'Point') {
-    content = ''
-
-    if (Object.keys(feature.properties).includes('html_expo')) {
-      // content = feature.properties.html_expo
-      delete feature.properties.html_expo
-    }
-    
-    const entries = Object.entries(feature.properties)
-    for (const [field, value] of entries) {
-      content += `<tr><th scope="row">${field}</th><td>${value}</td></tr>`
-    }
-    content = `<table>${content}</table>`
-    return content
-  
-  } else {
-    content = '<p>HUEHUE deu ruim</p>'
-    return content
+  let content = ''
+  const entries = Object.entries(feature.properties)
+  for (let [field, value] of entries) {
+    if (field === 'id') { value = [value] }
+    content += `<tr><th scope="row">${field}</th><td>${value[0]}</td></tr>`
   }
+  return content = `<table>${content}</table>`
 }
 
 export function makeFeature (obj, lat, lng) {
@@ -76,5 +56,3 @@ export function encodeCoords (coords) {
   const lngCode = base36encode(coords[1] * 10**6) // encode -48549741
   return latCode + '_' + lngCode
 }
-
-/* const eivWFS = 'http://192.168.173.178:8080/geoserver/mdr/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=' + 'mdr%3Asoadotadas&maxFeatures=50&outputFormat=application%2Fjson' */
