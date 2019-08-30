@@ -1,11 +1,8 @@
 <script>
-  import { createEventDispatcher } from 'svelte'
   import { auth, googleProvider } from '../../utils/firebase.js'
   import { authState } from 'rxfire/auth'
   import { user } from '../../utils/stores.js'
-  import Profile from './Profile.svelte'
-
-  const dispatch = createEventDispatcher()
+  import Profile from '../inputs/Profile.svelte'
 
   const unsubscribe = authState(auth).subscribe(u => $user = u)
 

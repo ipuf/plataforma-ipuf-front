@@ -44,7 +44,7 @@
     </select>
   {:else}
     <select bind:value={selected}>
-      <option value="" selected>{placeholder}</option>
+      <option value="" disabled selected>{placeholder}</option>
       {#each categoria as cat}
         <option value={cat.value}>
           {cat.text}
