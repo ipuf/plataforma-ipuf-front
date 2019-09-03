@@ -35,7 +35,7 @@
   {placeholder}
   {#if req === 'true'}
     <select bind:value={selected} {required}>
-      <option value="" disabled selected>{placeholder}</option>
+      <option value='' disabled selected>{placeholder}</option>
       {#each categoria as cat}
         <option value={cat.value}>
           {cat.text}
@@ -44,7 +44,7 @@
     </select>
   {:else}
     <select bind:value={selected}>
-      <option value="" selected>{placeholder}</option>
+      <option value='NA' selected>{placeholder}</option>
       {#each categoria as cat}
         <option value={cat.value}>
           {cat.text}

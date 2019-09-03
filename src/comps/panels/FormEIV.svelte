@@ -12,9 +12,11 @@
 
   $: lat = $newCoords ? $newCoords[0] : 'lat'
   $: lng = $newCoords ? $newCoords[1] : 'lng'
-  $: $eivs.id = $newCoords ? encodeCoords($newCoords) : ''
+  $: $eivs.id[0] = $newCoords ? encodeCoords($newCoords) : ''
   
   function handleSubmit () {
+    if (!$newCoords) return alert('Insira ou selecione um ponto!')
+    
     const feature = makeFeature($eivs, lat, lng)
 
     dispatch('message', {
@@ -22,6 +24,8 @@
       feature: feature,
       id: feature.properties.id
     })
+
+    return console.log('Form submitted to control component.')
   }
 </script>
 

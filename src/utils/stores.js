@@ -4,12 +4,12 @@ export const user = writable('')
 
 export const newFeature = writable('')
 
-export const newCoords = derived(newFeature, 
+export const newCoords = derived(newFeature,
   $newFeature => $newFeature ? [$newFeature.getLatLng().lat.toPrecision(8), $newFeature.getLatLng().lng.toPrecision(8)] : ''
 )
 
 export const eivs = writable({
-  id: '',
+  id: ['', 'string'],
   categoria: ['', 'string'],
   processo_num: ['', 'string'],
   processo_ano: ['', 'integer'],
@@ -34,4 +34,3 @@ export const eivs = writable({
   tempo_fina: ['', 'string'],
   data_atualiz: ['', 'string']
 })
-

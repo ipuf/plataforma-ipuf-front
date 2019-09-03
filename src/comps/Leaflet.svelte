@@ -3,6 +3,7 @@
   import { L, key } from '../utils/leaflet.js'
   import { loadCss } from '../utils/helpers.js'
   import Control from './Control.svelte'
+  import Logo from './panels/Logo.svelte'
   
   setContext(key, {
     getMap: () => map
@@ -57,5 +58,6 @@
 <div bind:this={mapContainer}>
   {#if map}
     <Control/>
+    <Logo/>
   {/if}
 </div>

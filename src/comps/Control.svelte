@@ -68,11 +68,11 @@
             /* Panel-specific events */
             mapData.on('click', (e) => {
               const featProps = e.layer.feature.properties
-              Object.keys($eivs).forEach(k => $eivs[k] = featProps[k])
+              Object.keys($eivs).forEach(k => $eivs[k][0] = featProps[k][0])
             })
 
             map.on('click', (e) => {
-              Object.keys($eivs).forEach(k => $eivs[k] = '')
+              Object.keys($eivs).forEach(k => $eivs[k][0] = '')
             })
 
             if ($user && allowedUids.includes($user.uid)) {
@@ -102,8 +102,11 @@
             map.on(L.Draw.Event.EDITED, (e) => {
               e.layers.eachLayer((layer) => {
                 layer.feature.geometry.coordinates = [layer.getLatLng().lat.toPrecision(8), layer.getLatLng().lng.toPrecision(8)]
+                $newFeature = layer
                 dataRef.doc(layer._leaflet_id).set(layer.feature)
                   .then(() => console.log('Edit successful'))
+                  .then(() => $newFeature = '')
+                  .then(() => Object.keys($eivs).forEach(k => $eivs[k][0] = ''))
                   .catch((e) => console.error(e + ', SHIT'))
               })
             })
