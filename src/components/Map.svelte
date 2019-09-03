@@ -20,10 +20,6 @@
       })
       $map.setView([lat, lon], zoom)
 
-      L.control.zoom({
-        position: 'bottomright'
-      }).addTo($map)
-
       const esriWorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
       })
@@ -37,6 +33,7 @@
       const baseMaps = {'Carto Positron': cartoDB, 'ESRI Satellite': esriWorldImagery}
 
       L.control.layers(baseMaps).addTo($map)
+      L.control.zoom({ position: 'topright' }).addTo($map)
     }
 
     return () => {

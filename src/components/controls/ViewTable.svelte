@@ -3,6 +3,8 @@
   import { L, key } from '../utils/leaflet.js'
   import { map } from '../utils/stores.js'
  
+  export let position = 'topleft'
+
   let container
   
   function handleClick() {
@@ -10,9 +12,6 @@
   }
 
   L.Control.AttTable = L.Control.extend({
-    options: {
-      position: 'topleft' 
-    },
     onAdd: (map) => {
       return container
     },
@@ -26,7 +25,7 @@
   }
 
   onMount(() => {
-    const attTable = L.control.attTable().addTo($map)
+    const attTable = L.control.attTable({ position: position }).addTo($map)
   })
 </script>
 

@@ -1,7 +1,7 @@
 <script>
   import { onMount, getContext } from 'svelte'
   import { L, key } from './utils/leaflet.js'
-  import { map, features, coords } from './utils/stores.js'
+  import { map, features, geom } from './utils/stores.js'
   import { db } from './utils/firebase.js'
   import { makeFeatCol, getPopupContent } from './utils/helpers.js'
 
@@ -9,13 +9,11 @@
 
   const dataRef = db.collection('teste')
   dataRef.onSnapshot((querySnapshot) => {
-    const $features = []
+    $features = []
     querySnapshot.forEach((doc) => { 
       $features.push(doc.data())
     })
     const featCol = makeFeatCol($features)
-    console.log($features)
-    console.log($coords)
     const geoLayer = L.geoJSON(featCol, {
       coordsToLatLng: (coords) => {  
         return new L.LatLng(coords[0], coords[1], coords[2])
@@ -28,4 +26,5 @@
       }
     })
   })
+
 </script>

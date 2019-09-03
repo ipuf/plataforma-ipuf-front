@@ -3,6 +3,8 @@
   import { L, key } from '../utils/leaflet.js'
   import { map } from '../utils/stores.js'
   
+  export let position = 'bottomleft'
+
   let container
   let src = '/images/ipuf-01.png'
   let alt = 'Logo IPUF'
@@ -21,7 +23,7 @@
   }
 
   onMount(() => {
-    const watermark = L.control.watermark({ position: 'bottomleft' }).addTo($map)
+    const watermark = L.control.watermark({ position: position }).addTo($map)
   })
 </script>
 

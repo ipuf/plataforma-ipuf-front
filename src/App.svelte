@@ -7,7 +7,7 @@
 	import Layers from './components/Layers.svelte'
 	import Logo from './components/controls/Logo.svelte'
 	import Edit from './components/controls/Edit.svelte'
-	import Table from './components/controls/Table.svelte'
+	import ViewTable from './components/controls/ViewTable.svelte'
 </script>
 
 <style>
@@ -20,7 +20,7 @@
 
 <Map lat={-27.59} lon={-48.54} zoom={12}>
 	<Layers/>
-	<Logo/>
-	<Edit/>
-	<Table/>
+	<Logo position='bottomright' />
+	<Edit position='topleft' />
+	<ViewTable position='topleft' />
 </Map>

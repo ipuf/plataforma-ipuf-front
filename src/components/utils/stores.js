@@ -2,19 +2,12 @@ import { writable, derived } from 'svelte/store'
 
 export const map = writable('')
 
-export const features = writable('')
+export const features = writable([])
 
 export const user = writable('')
 
-export const coords = derived(features, 
-  ($features) => {
-    if ($features) {
-      $features.forEach((feature) => {
-        console.log(feature.geometry.coordinates, feature.geometry.coordinates)
-      })
-    }
-    
-  }
+export const geom = derived(features,
+  $features => Array.isArray($features) ? $features.forEach(feature => feature.geometry.coordinates) : 'shit'
 )
 
 export const teste = writable({
@@ -23,37 +16,3 @@ export const teste = writable({
   b: '',
   c: ''
 })
-
-export const eivs = writable({
-  id: '',
-  categoria: ['', 'string'],
-  processo_num: ['', 'string'],
-  processo_ano: ['', 'integer'],
-  empreendedor: ['', 'string'],
-  empreendimento: ['', 'string'],
-  atividade: ['', 'string'],
-  area_const: ['', 'float'],
-  status: ['', 'string'],
-  parecer_aprov_num: ['', 'integer'],
-  parec_aprov_ano: ['', 'integer'],
-  valor_compens: ['', 'integer'],
-  tipo_compens: ['', 'string'],
-  nun_tcc: ['', 'integer'],
-  ano_tcc: ['', 'integer'],
-  execuc_compens: ['', 'string'],
-  prazo_exec: ['', 'string'],
-  num_termo_receb: ['', 'integer'],
-  ano_termo_receb: ['', 'integer'],
-  insc_imob: ['', 'string'],
-  distrito: ['', 'string'],
-  tempo_inic: ['', 'string'],
-  tempo_fina: ['', 'string'],
-  data_atualiz: ['', 'string']
-})
-
-/* export const currentView = writable('')
-
-export const formProps = derived([currentView, teste, eivs],
-  ([$currentView, $teste, $eivs]) => ($currentView === 'teste') ? $teste : ($currentView === 'eivs') ? $eivs : ''
-)
- */

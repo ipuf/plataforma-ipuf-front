@@ -3,6 +3,7 @@
   import { L, key } from '../utils/leaflet.js'
   import { map } from '../utils/stores.js'
 
+  export let position = 'topleft'
   let container
   
   function handleClick() {
@@ -10,9 +11,6 @@
   }
 
   L.Control.ToggleEdit = L.Control.extend({
-    options: {
-      position: 'topleft' 
-    },
     onAdd: (map) => {
       return container
     },
@@ -26,7 +24,7 @@
   }
 
   onMount(() => {
-    const toggleEdit = L.control.toggleEdit().addTo($map)
+    const toggleEdit = L.control.toggleEdit({ position: position }).addTo($map)
   })
 </script>
 
