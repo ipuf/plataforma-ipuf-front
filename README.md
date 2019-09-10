@@ -4,7 +4,7 @@ This project is based on [Svelte](https://svelte.dev), [Leaflet](https://leaflet
 
 The idea here is to create a 'WebGIS-light' solution for geospatial data management. The app expects geojson data, which it renders through Leaflet, populating popups with properties of features, and giving the user a high-level view of the data with an (editable) attribute table. 
 
-This was made for users that do not have enough familiarity with tools such as ArcGIS or QGIS, but still need to manage spatial data safely, intuitively and in a visually pleasant manner. Doing so through a webapp allows them to display it anywhere they go with no extra training required beyond basic internet use, and allows the data to be formatted before any CRUD operations happen.
+This was made for users that do not have enough familiarity with tools such as ArcGIS or QGIS, but still need to manage spatial data safely, intuitively and in a visually pleasant manner. Doing so through a webapp allows them to display it anywhere they go with no extra training required beyond basic internet use.
 
 ## Get started
 *Note that you will need to have [Node.js](https://nodejs.org) installed.*
