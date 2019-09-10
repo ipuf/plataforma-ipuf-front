@@ -1,8 +1,8 @@
 <script>
-  import { onMount, setContext } from 'svelte'
-  import { L, key } from './utils/leaflet.js'
+  import { onMount } from 'svelte'
+  import L from 'leaflet'
   import { map } from './utils/stores.js'
-  import { loadCss } from './utils/helpers.js'
+  import { loadCSS } from './utils/helpers.js'
  
   export let lat
   export let lon
@@ -12,7 +12,7 @@
   let latlong
 
   onMount(() => {
-    const link = loadCss('https://unpkg.com/leaflet@1.5.1/dist/leaflet.css')
+    const link = loadCSS('https://unpkg.com/leaflet@1.5.1/dist/leaflet.css')
 
     link.onload = () => {
       $map = L.map(container, {
@@ -37,7 +37,7 @@
     }
 
     return () => {
-      map.remove()
+      $map.remove()
       link.parentNode.removeChild(link)
     }
   })

@@ -1,23 +1,18 @@
 <script>
   import { onMount } from 'svelte'
   import L from 'leaflet'
-  import { map, editMode } from '../utils/stores.js'
+  import { map } from '../utils/stores.js'
   import Icon from 'svelte-awesome'
-  import { faEdit } from '@fortawesome/free-solid-svg-icons'
+  import { faUser } from '@fortawesome/free-solid-svg-icons'
 
   export let position = 'topleft'
   let container
-  $: active = $editMode
-  
+  let active = false
   function handleClick() {
-    if (!$editMode) {
-      $editMode = true
-    } else {
-      $editMode = false
-    }
+    alert('User clicked')
   }
 
-  L.Control.ToggleEdit = L.Control.extend({
+  L.Control.User = L.Control.extend({
     onAdd: (map) => {
       return container
     },
@@ -26,12 +21,12 @@
     }
   })
 
-  L.control.toggleEdit = (opts) => {
-    return new L.Control.ToggleEdit(opts)
+  L.control.user = (opts) => {
+    return new L.Control.User(opts)
   }
 
   onMount(() => {
-    const toggleEdit = L.control.toggleEdit({ position: position }).addTo($map)
+    const user = L.control.user({ position: position }).addTo($map)
   })
 </script>
 
@@ -51,8 +46,8 @@
 
 <div bind:this={container} class:active on:click={handleClick} class="leaflet-bar leaflet-control leaflet-control-custom">
   {#if active}
-    <Icon data={faEdit} style="color: white; margin-left: 2px;" scale="1.25"/>
+    <Icon data={faUser} style="color: white;" scale="1.25"/>
   {:else}
-    <Icon data={faEdit} style="margin-left: 2px;" scale="1.25"/>
+    <Icon data={faUser} scale="1.25"/>
   {/if}
 </div>

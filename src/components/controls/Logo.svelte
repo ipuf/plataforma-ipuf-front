@@ -1,12 +1,12 @@
 <script>
-  import { onMount, getContext } from 'svelte'
-  import { L, key } from '../utils/leaflet.js'
+  import { onMount } from 'svelte'
+  import L from 'leaflet'
   import { map } from '../utils/stores.js'
   
   export let position = 'bottomleft'
 
   let container
-  let src = '/images/ipuf-01.png'
+  let src = './images/ipuf-01.png'
   let alt = 'Logo IPUF'
   
   L.Control.Watermark = L.Control.extend({

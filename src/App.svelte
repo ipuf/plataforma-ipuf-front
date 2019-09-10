@@ -6,8 +6,9 @@
 	import Map from './components/Map.svelte'
 	import Layers from './components/Layers.svelte'
 	import Logo from './components/controls/Logo.svelte'
+	import User from './components/controls/User.svelte'
 	import Edit from './components/controls/Edit.svelte'
-	import ViewTable from './components/controls/ViewTable.svelte'
+	import Table from './components/controls/Table.svelte'
 </script>
 
 <style>
@@ -21,6 +22,7 @@
 <Map lat={-27.59} lon={-48.54} zoom={12}>
 	<Layers/>
 	<Logo position='bottomright' />
+	<User position='topleft' />
 	<Edit position='topleft' />
-	<ViewTable position='topleft' />
+	<Table position='topleft' />
 </Map>

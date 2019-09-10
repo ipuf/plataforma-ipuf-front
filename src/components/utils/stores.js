@@ -1,14 +1,10 @@
-import { writable, derived } from 'svelte/store'
+import { writable } from 'svelte/store'
 
 export const map = writable('')
 
-export const features = writable([])
+export const features = writable({})
 
-export const user = writable('')
-
-export const geom = derived(features,
-  $features => Array.isArray($features) ? $features.forEach(feature => feature.geometry.coordinates) : 'shit'
-)
+export const editMode = writable(false)
 
 export const teste = writable({
   id: '',
@@ -16,3 +12,5 @@ export const teste = writable({
   b: '',
   c: ''
 })
+
+export const user = writable('')
