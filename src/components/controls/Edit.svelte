@@ -1,12 +1,8 @@
 <script>
-  import { onMount } from 'svelte'
-  import L from 'leaflet'
-  import { map, editMode } from '../utils/stores.js'
+  import { editMode } from '../utils/stores.js'
   import Icon from 'svelte-awesome'
   import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
-  export let position = 'topleft'
-  let container
   $: active = $editMode
   
   function handleClick() {
@@ -16,40 +12,27 @@
       $editMode = false
     }
   }
-
-  L.Control.ToggleEdit = L.Control.extend({
-    onAdd: (map) => {
-      return container
-    },
-    onRemove: (map) => {
-      // Do nothing
-    }
-  })
-
-  L.control.toggleEdit = (opts) => {
-    return new L.Control.ToggleEdit(opts)
-  }
-
-  onMount(() => {
-    const toggleEdit = L.control.toggleEdit({ position: position }).addTo($map)
-  })
 </script>
 
 <style>
   div {
+    position: fixed;
     display: flex;
+    float: left;
+    margin-left: 12px;
+    margin-top: 10px;
     align-items: center;
     justify-content: center;
-    background-color: white;
     width: 44px;
     height: 44px;
+    background-color: white;
   }
-  .active {
+  div.active {
     background-color: red;
   }
 </style>
 
-<div bind:this={container} class:active on:click={handleClick} class="leaflet-bar leaflet-control leaflet-control-custom">
+<div class:active on:click={handleClick}>
   {#if active}
     <Icon data={faEdit} style="color: white; margin-left: 2px;" scale="1.25"/>
   {:else}
