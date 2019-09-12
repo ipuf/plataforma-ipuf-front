@@ -1,41 +1,54 @@
 <script>
+  import { fade } from 'svelte/transition'
   import { editMode } from '../utils/stores.js'
   import Icon from 'svelte-awesome'
   import { faEdit } from '@fortawesome/free-solid-svg-icons'
+  
+  export let zIndex
 
   $: active = $editMode
-  
-  function handleClick() {
-    if (!$editMode) {
-      $editMode = true
-    } else {
-      $editMode = false
-    }
-  }
 </script>
 
 <style>
   div {
-    position: fixed;
     display: flex;
-    float: left;
-    margin-left: 12px;
-    margin-top: 10px;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    background-color: white;
+    position: fixed;
+    margin-left: 1vw;
+    margin-top: 2vh;
+    width: 220px;
+    height: 60px;
+    background: #003366;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, .4);
+    border-radius: 4px;
+    cursor: pointer;
   }
   div.active {
     background-color: red;
   }
+  span {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    align-items: center;
+    justify-items: center;
+  }
+  p {
+    color: white;
+    font-size: 0.9rem;
+  }
 </style>
 
-<div class:active on:click={handleClick}>
+<div class:active on:click style="z-index: {zIndex};">
   {#if active}
-    <Icon data={faEdit} style="color: white; margin-left: 2px;" scale="1.25"/>
+    <span in:fade="{{ duration: 250 }}">
+      <Icon data={faEdit} style="color: white; margin-left: 4px; margin-bottom: 2px;" scale="2"/>
+      <p>Edição ligada</p>
+    </span>
   {:else}
-    <Icon data={faEdit} style="margin-left: 2px;" scale="1.25"/>
+    <span in:fade="{{ duration: 250 }}">
+      <Icon data={faEdit} style="color: white; margin-left: 4px; margin-bottom: 2px;" scale="2"/>
+      <p>Editar feições</p>
+    </span>
   {/if}
 </div>

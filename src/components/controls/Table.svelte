@@ -1,46 +1,35 @@
 <script>
   import Icon from 'svelte-awesome'
   import { faTable } from '@fortawesome/free-solid-svg-icons'
-  import Spreadsheet from '../panels/Spreadsheet.svelte'
-  
-  let width = 44
-  let height = 44
-  let table = false
 
-  function handleClick () {
-    if (!table) {
-      table = true
-      width = 1600
-      height = 600
-    } else {
-      table = false
-      width = 44
-      height = 44
-    }
-  } 
+  export let zIndex
 </script>
 
 <style>
   div {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
     position: fixed;
-    display: flex;
-    float: left;
-    margin-left: 12px;
-    margin-top: 138px;
+    margin-left: 1vw;
+    margin-top: 18vh;
     align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    background-color: white;
+    justify-items: center;
+    width: 220px;
+    height: 60px;
+    background: #003366;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, .4);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  p {
+    color: white;
+    font-size: 0.9rem;
   }
 </style>
 
-{#if !table}
-  <div on:click={handleClick}>
-    <Icon data={faTable} scale="1.25"/>
-  </div>
-{:else}
-  <div style="width: {width}px; height: {height}px;">
-    <Spreadsheet on:click={handleClick}/>
-  </div> 
-{/if}
+<div on:click style="z-index: {zIndex};">
+  <Icon data={faTable} style="color: white;" scale="2"/>
+  <p>Tabela de atributos</p>
+</div>
+  
+

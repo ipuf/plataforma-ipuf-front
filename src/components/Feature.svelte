@@ -1,11 +1,10 @@
 <script>
   import { onMount } from 'svelte'
 	import L from 'leaflet'
-  import { map, editMode } from './utils/stores.js'
+  import { map } from './utils/stores.js'
   import Popup from './Popup.svelte'
 
   export let feature
-  // console.log(feature)
 
   let geom
   let popup
@@ -18,19 +17,17 @@
     case 'Point':
       const [lon, lat] = [coords[0], coords[1]]
       geom = L.marker([lon, lat])
-      // console.log('case point')
       break
     
     case 'Polygon':
       const lnglats = coords[0]
       geom = L.polygon(lnglats)
-      // console.log('case polygon')
       break
   } 
   
   onMount(() => {
     geom.addTo($map)
-      .bindPopup(popup, { minWidth: 250, maxWidth: 250 })
+      .bindPopup(popup, { minWidth: 250, maxWidth: 250, minHeight: 150, maxHeight: 150 })
       .on('popupopen popupclose', (e) => {
         if (!content) {
           content = true

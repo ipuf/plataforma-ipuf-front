@@ -6,9 +6,8 @@
 <style>
   table {
     width: 100%;
-    height: 100%;
+    height: 150px;
   }
-  
   input {
     width:100%;
     height:100%;
