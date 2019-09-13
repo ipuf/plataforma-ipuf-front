@@ -4,70 +4,80 @@
   import Icon from 'svelte-awesome'
   import { faTimes } from '@fortawesome/free-solid-svg-icons'
   import { auth, googleProvider } from '../utils/firebase.js'
-  import { authState } from 'rxfire/auth'
   import { user } from '../utils/stores.js'
+  import { authState } from 'rxfire/auth'
   import UserInfo from './UserInfo.svelte'
 
-  export let zIndex
+  export let zProfile
+
+  $: logged = $user ? true : false
 
   const unsubscribe = authState(auth).subscribe(u => $user = u)
 
   function login() {
     auth.signInWithPopup(googleProvider)
-      .then((res) => console.log(res.user))
+      .then((res) => console.log(res.$user))
   }
 </script>
 
 <style>
-  .parent {
-    position: fixed;
-    left: 50vw;
-    top: 50vh;
-    transform: translate(-41.5%, -55%);
+  div {
     display: grid;
-    grid-template-columns: minmax(100px, 5fr) minmax(25px, 1fr);
-    width: 35vw;
-    height: 35vh;
-    background-color: white;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, .25);
+    justify-items: center;
+    align-items: center;
+    width: 20vw;
+    height: 20vh;
+    background:  	#F8F8F8;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, .4);
+    border-radius: 6px;
+    transition: all 0.4s;
+    overflow: auto;
+  }
+  .logged {
+    width: 30vw;
+    height: 30vh;
   }
   span {
-    justify-self: end;
-    cursor: pointer;
+    position: fixed;
+    top: 0;
+    right: 0;
     margin-top: 5px;
     margin-right: 10px;
-    border: 0px
+    cursor: pointer;
+    border: none;
   }
   button {
+    align-self: end;
     background-color: #4CAF50;
     color: white;
-    padding: 12px 20px;
-    margin-bottom: 10px;
+    padding: 5px;
+    margin-bottom: 20px;
+    width: 200px;
+    height: 50px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    left: 50%;
   }
   button:hover {
     background-color: #45a049;
   }
+  p {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-left: 30px;
+    margin-right: 30px;
+  }
 </style>
 
-<div class="parent" style="z-index: {zIndex};" transition:fade="{{ duration: 250 }}">
+<div class:logged transition:fade style="z-index:{zProfile};">
   {#if $user}
     <UserInfo {...$user}/>
-    <span on:click>
-      <Icon data={faTimes} scale="2"/>
-    </span>
+    <span on:click> <Icon data={faTimes} scale="1.85"/> </span>
     <button on:click={ () => auth.signOut() }>Logout</button>
   {:else}
-    <p>Faça login abaixo para habilitar o formulário</p>
-    <span on:click>
-      <Icon data={faTimes} scale="2"/>
-    </span>
-    <button on:click={login}>
-      Login com Google
-    </button>
+    <p>Faça login abaixo para habilitar a edição</p>
+    <span on:click> <Icon data={faTimes} scale="1.85"/> </span>
+    <button on:click={login}>Login com Google</button>
   {/if}
 </div>
 

@@ -1,5 +1,5 @@
 <script>
-  export let zIndex
+  //export let zIndex
   
   let src = './images/ipuf-01.png'
   let alt = 'Logo IPUF'
@@ -19,5 +19,5 @@
   }
 </style>
 
-<a {href} style="z-index: {zIndex};"><img  {src} {alt}/></a>
+<a {href} style="z-index: 400;"><img  {src} {alt}/></a>
    

@@ -6,7 +6,7 @@
 <script>
 	import Map from './components/Map.svelte'
 	import Layers from './components/Layers.svelte'
-	import Controls from './components/Controls.svelte'
+	import Controller from './components/Controller.svelte'
 </script>
 
 <style>
@@ -17,9 +17,12 @@
 		background: white;
 		font-family: 'Montserrat', sans-serif;
 	}
+	:global(*) {
+		box-sizing: border-box;
+	}
 </style>
 
-<Controls/>
+<Controller/>
 <Map lat={-27.59} lon={-48.54} zoom={12}>
 	<Layers/>
 </Map>
