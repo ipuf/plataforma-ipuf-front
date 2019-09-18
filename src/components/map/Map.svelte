@@ -1,8 +1,9 @@
 <script>
   import { onMount } from 'svelte'
   import L from 'leaflet'
-  import { map } from './utils/stores.js'
-  import { loadCSS } from './utils/helpers.js'
+  import { map } from '../utils/stores.js'
+  import { loadCSS } from '../utils/helpers.js'
+  import Layers from './Layers.svelte'
  
   export let lat
   export let lon
@@ -53,6 +54,6 @@
 
 <div bind:this={container}>
   {#if $map}
-    <slot></slot>
+    <Layers/>
   {/if}
 </div>

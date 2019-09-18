@@ -16,7 +16,6 @@
 
   function login() {
     auth.signInWithPopup(googleProvider)
-      .then((res) => console.log(res.$user))
   }
 </script>
 

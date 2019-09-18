@@ -1,11 +1,12 @@
 <script>
-  import { editMode, user, rendered } from './utils/stores.js'
+  import Map from './map/Map.svelte'
   import User from './buttons/User.svelte'
   import Logo from './buttons/Logo.svelte'
   import Edit from './buttons/Edit.svelte'
   import Table from './buttons/Table.svelte'
   import Dataset from './panels/Dataset.svelte'
-  import Profile from './panels/Profile.svelte'
+	import Profile from './panels/Profile.svelte'
+	import { editMode, user, rendered } from './utils/stores.js'
   
   let zButtons = 900
   let zPanels = 600
@@ -39,6 +40,7 @@
   }
 </style>
 
+
 <div class="buttons" style="z-index: {zButtons};">
   {#if $rendered}
     <User {panelOpen} on:click={toggleProfile}/>
@@ -50,12 +52,14 @@
 </div>
 
 <div class="panels" style="z-index: {zPanels};">
-  {#if table }
+  {#if table}
     <Dataset {zSpread} on:click={toggleTable}/>
   {/if}
-  {#if profile }
+  {#if profile}
     <Profile {zProfile} on:click={toggleProfile}/>
   {/if}
 </div>
 
 <Logo {zButtons} />
+
+<Map lat={-27.59} lon={-48.54} zoom={12}/>

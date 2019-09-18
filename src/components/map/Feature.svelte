@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte'
 	import L from 'leaflet'
-  import { map, rendered } from './utils/stores.js'
+  import { map, rendered } from '../utils/stores.js'
   import Popup from './Popup.svelte'
 
   export let feature

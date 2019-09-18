@@ -1,5 +1,5 @@
 <script>
-  import { editMode } from './utils/stores.js'
+  import { editMode } from '../utils/stores.js'
   export let feature
 </script>
 

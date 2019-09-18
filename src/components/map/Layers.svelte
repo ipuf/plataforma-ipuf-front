@@ -1,8 +1,8 @@
 <script>
   import { onMount } from 'svelte'
   import L from 'leaflet'
-  import { features } from './utils/stores.js'
-  import { db } from './utils/firebase.js'
+  import { features } from '../utils/stores.js'
+  import { db } from '../utils/firebase.js'
   import Feature from './Feature.svelte'
 
   const dataRef = db.collection('teste')
