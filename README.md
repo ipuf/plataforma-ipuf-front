@@ -1,6 +1,6 @@
 # Svelte Dash
 
-This project is based on [Svelte](https://svelte.dev)and [Leaflet](https://leafletjs.com). 
+This project is based on [Svelte](https://svelte.dev) and [Leaflet](https://leafletjs.com). 
 
 The idea here is to create a 'WebGIS-light' solution for geospatial data management. The app expects geojson data, which it renders through Leaflet, populating popups with properties of features, and giving the user a high-level view of the data with an (editable) attribute table. 
 
