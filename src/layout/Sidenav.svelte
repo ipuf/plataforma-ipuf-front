@@ -1,58 +1,50 @@
 <script>
-  export let sidenav
+  import Icon from 'svelte-awesome'
+  import { beer, arrowRight, arrowLeft } from 'svelte-awesome/icons'
 
-  const dados = [
-    {
-      name: 'EIVs',
-      map: true,
-      form: true
-    }
-  ]
+  export let sidenav = false
 </script>
 
 <style>
-  aside {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		width: 25%;
-		overflow-y: auto;
-		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
-		transition: all 0.5s ease-in-out;
-		z-index: 1;
-	}
   ul {
     padding: 0;
     list-style-type: none;
   }
   li {
-    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 10px 10px 10px;
     color: #ddd
   }
   li:hover {
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255,255,255,0.6);
     cursor: pointer;
   }
 </style>
 
-<aside>
-  <ul>
-    <li>Perfil</li>
-    <li>Dados
-      <ul>
-        {#each dados as dado}
-          <ul>{ dado.name }
-            <li>Tabela</li>
-            {#if dado.map}
-              <li>Mapas</li>
-            {/if}
-            {#if dado.form}
-              <li>Formulários</li>
-            {/if}
-          </ul>
-        {/each}
-      </ul>
-    </li>
-    <li>Processos</li>
-  </ul>
-</aside>
+<ul>
+  {#if !sidenav}
+    <li on:click><Icon data={arrowRight} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+  {:else}
+    <li on:click><Icon data={arrowLeft} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon>Pedestres</li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon>Ciclos</li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon>Ônibus</li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+    <li><Icon data={beer} scale=3 style="color: gray;"></Icon></li>
+  {/if}
+</ul>

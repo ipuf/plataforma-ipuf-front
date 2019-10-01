@@ -5,9 +5,7 @@
 <script>
 	import Layout from './layout/Layout.svelte'
 	import Map from './views/Map.svelte'
-	import Datagrid from './views/Datagrid.svelte'
 	import Profile from './views/Profile.svelte'
-	import Dashboard from './views/Dashboard.svelte'
 
 	let panelActive = 'map'
 </script>
@@ -29,11 +27,7 @@
 <Layout>
 	{#if panelActive === 'map'}
 		<Map/>
-	{:else if panelActive === 'data'}
-		<Datagrid/>
 	{:else if panelActive === 'profile'}
 		<Profile/>
-	{:else}
-		<Dashboard/>
 	{/if}
 </Layout>
