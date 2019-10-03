@@ -1,9 +1,7 @@
-<svelte:head>
-	<title>Formulário EIVs</title>
-</svelte:head>
-
 <script>
 	import Leaflet from './comps/Leaflet.svelte'
+	import Control from './comps/Control.svelte'
+	import Logo from './comps/Logo.svelte'
 </script>
 
 <style>
@@ -14,4 +12,7 @@
 	}
 </style>
 
-<Leaflet lat={-27.59} lon={-48.54} zoom={12}/>
+<Leaflet lat={-27.59} lon={-48.54} zoom={12}>
+	<Control/>
+	<Logo/>
+</Leaflet>

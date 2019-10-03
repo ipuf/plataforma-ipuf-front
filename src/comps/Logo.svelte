@@ -1,9 +1,7 @@
 <script>
-  import { onMount, getContext } from 'svelte'
-  import { L, key } from '../../utils/leaflet.js'
-  
-  const { getMap } = getContext(key)
-  const map = getMap()
+  import { onMount } from 'svelte'
+  import L from 'leaflet'
+  import { map } from '../utils/stores.js'
 
   let container
   let src = './ipuf-01.png'
@@ -23,7 +21,7 @@
   }
 
   onMount(() => {
-    const watermark = L.control.watermark({ position: 'bottomright' }).addTo(map)
+    const watermark = L.control.watermark({ position: 'bottomright' }).addTo($map)
   })
 </script>
 

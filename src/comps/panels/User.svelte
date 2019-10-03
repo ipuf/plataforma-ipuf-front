@@ -1,17 +1,17 @@
 <script>
-  import { createEventDispatcher } from 'svelte'
-  import { auth, googleProvider } from '../../utils/firebase.js'
-  import { authState } from 'rxfire/auth'
-  import { user } from '../../utils/stores.js'
   import Profile from './Profile.svelte'
+  import { auth, googleProvider } from '../../utils/firebase.js'
 
-  const dispatch = createEventDispatcher()
+  export let user
 
-  const unsubscribe = authState(auth).subscribe(u => $user = u)
-
-  function login() {
+  function signIn () {
     auth.signInWithPopup(googleProvider)
-      .then((res) => console.log(res.user))
+  }
+
+  function signOut () {
+    auth.signOut()
+      .then(() => console.log('User logged out'))
+      .catch((e) => console.error(e))
   }
 </script>
 
@@ -36,14 +36,13 @@
 </style>
 
 <section>
-  {#if $user}
-    <Profile {...$user}/>
-    <button on:click={ () => auth.signOut() }>Logout</button>
+  {#if user}
+    <Profile {...user}/>
+    <button on:click={signOut}>Logout</button>
   {:else}
     <p>Faça login abaixo para habilitar o formulário</p>
-    <button on:click={login}>
+    <button on:click={signIn}>
       Login com Google
     </button>
   {/if}
 </section>
-

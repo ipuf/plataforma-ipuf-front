@@ -1,19 +1,13 @@
 <script>
-  import { onMount, setContext } from 'svelte'
-  import { L, key } from '../utils/leaflet.js'
+  import { onMount } from 'svelte'
+  import L from 'leaflet'
+  import { map } from '../utils/stores.js'
   import { loadCss } from '../utils/helpers.js'
-  import Control from './Control.svelte'
-  import Logo from './panels/Logo.svelte'
-  
-  setContext(key, {
-    getMap: () => map
-  })
   
   export let lat
   export let lon
   export let zoom
 
-  let map
   let mapContainer
   let latlong
   let toggleEditContainer
@@ -23,8 +17,9 @@
 
     link.onload = () => {
       // set up map w/ basemap
-      map = L.map(mapContainer)
-      map.setView([lat, lon], zoom)
+      $map = L.map(mapContainer, { zoomControl: false })
+      $map.setView([lat, lon], zoom)
+      
 
       const esriWorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
@@ -34,15 +29,16 @@
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
         maxZoom: 19
-      }).addTo(map)
+      }).addTo($map)
 
       const baseMaps = {'Carto Positron': cartoDB, 'ESRI Satellite': esriWorldImagery}
 
-      L.control.layers(baseMaps).addTo(map)
+      L.control.layers(baseMaps).addTo($map)
+      L.control.zoom({ position: 'topright' }).addTo($map)
     }
 
     return () => {
-      map.remove()
+      $map.remove()
       link.parentNode.removeChild(link)
     }
   })
@@ -56,8 +52,7 @@
 </style>
 
 <div bind:this={mapContainer}>
-  {#if map}
-    <Control/>
-    <Logo/>
+  {#if $map}
+    <slot></slot>
   {/if}
 </div>

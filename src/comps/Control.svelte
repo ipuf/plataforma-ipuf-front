@@ -1,31 +1,44 @@
 <script>
-  import { onMount, getContext } from 'svelte'
-  import { L, key } from '../utils/leaflet.js'
-  import { db } from '../utils/firebase.js'
+  import { onMount } from 'svelte'
+  import L from 'leaflet'
+  import * as leafside from 'leaflet-sidebar-v2'
+  import * as leafdraw from 'leaflet-draw'
+  import { db, auth } from '../utils/firebase.js'
   import { loadCss, makeFeatCol, getPopupContent, encodeCoords } from '../utils/helpers.js'
-  import { user, newFeature, eivs } from '../utils/stores.js'
-  import { allowedUids } from '../utils/arrays.js'
+  import { map, newFeature, eivs } from '../utils/stores.js'
   import User from './panels/User.svelte'
   import FormEIV from './panels/FormEIV.svelte'
   
-  const { getMap } = getContext(key)
-  const map = getMap()
-  
+  let user
+
+  auth.onAuthStateChanged((u) => {
+    if (u) {
+      user = u
+    } else {
+      user = false
+    }
+  })
+
+  console.log('user: ', user)
+
   let sideContainer
   let sidebar
   let mapData
+  let newData
   let drawControl
+  let editControl
   let dataRef
 
   function formSubmitted (event) {
+    console.log(event.detail.id)
     dataRef = db.collection(event.detail.dataref)
     dataRef.doc(event.detail.id).set(event.detail.feature)
       .then(() => $newFeature = '')
       .then(() => console.log('Creation successful'))
-      .then(drawControl.addTo(map))
-      .then(() => {
-        Object.keys($eivs).forEach(k => $eivs[k] = '')
-      })
+      .then(newData.clearLayers())
+      .then(editControl.remove($map))
+      .then(drawControl.addTo($map))
+      .then(() => Object.keys($eivs).forEach(k => $eivs[k][0] = ''))
       .catch((e) => console.error(e + ', DAMN'))
   }
 
@@ -35,11 +48,12 @@
     const linkS = loadCss('https://unpkg.com/leaflet-sidebar-v2@3.2.0/css/leaflet-sidebar.min.css')
 
     linkS.onload = () => {
-      sidebar = L.control.sidebar({ container: sideContainer }).addTo(map)
-      mapData = L.featureGroup().addTo(map)
+      sidebar = L.control.sidebar({ container: sideContainer }).addTo($map)
+      mapData = L.featureGroup().addTo($map)
+      newData = L.featureGroup().addTo($map)
       
       dataRef = db.collection('eivs')
-      dataRef.onSnapshot((querySnapshot) => {
+      const unsubscribe = dataRef.onSnapshot((querySnapshot) => {
         const features = []
         querySnapshot.forEach((doc) => { 
           features.push(doc.data())
@@ -51,7 +65,6 @@
             return new L.LatLng(coords[0], coords[1], coords[2])
           },
           onEachFeature: (feature, layer) => {
-            layer._leaflet_id = feature.properties.id
             layer.bindPopup(getPopupContent(feature), { minWidth: 125, maxWidth: 250 })
             layer.addTo(mapData)
           }
@@ -61,21 +74,22 @@
       sidebar.on('content', (e) => {
         switch (e.id) {
           case 'login':
-            if (drawControl) { map.removeControl(drawControl) }
+            if (drawControl) { $map.removeControl(drawControl) }
             break
          
           case 'formeiv': 
             /* Panel-specific events */
             mapData.on('click', (e) => {
               const featProps = e.layer.feature.properties
+              $newFeature = e.layer
               Object.keys($eivs).forEach(k => $eivs[k][0] = featProps[k][0])
             })
 
-            map.on('click', (e) => {
+            $map.on('click', (e) => {
               Object.keys($eivs).forEach(k => $eivs[k][0] = '')
             })
 
-            if ($user && allowedUids.includes($user.uid)) {
+            if (user) {
               drawControl = new L.Control.Draw({
                 edit: {
                   featureGroup: mapData,
@@ -90,36 +104,52 @@
                   circlemarker: false
                 }
               })
-              map.addControl(drawControl)
+              $map.addControl(drawControl)
             }
             
-            map.on(L.Draw.Event.CREATED, (e) => {
+            $map.on(L.Draw.Event.CREATED, (e) => {
               $newFeature = e.layer
-              mapData.addLayer($newFeature)
-              drawControl.remove(map)
+              newData.addLayer($newFeature)
+              if (drawControl) { $map.removeControl(drawControl) }
+              editControl = new L.Control.Draw({
+                edit: {
+                  featureGroup: newData,
+                  remove: true,
+                },
+                draw: false
+              })
+              $map.addControl(editControl)
             })
 
-            map.on(L.Draw.Event.EDITED, (e) => {
+            $map.on(L.Draw.Event.EDITED, (e) => {
               e.layers.eachLayer((layer) => {
-                layer.feature.geometry.coordinates = [layer.getLatLng().lat.toPrecision(8), layer.getLatLng().lng.toPrecision(8)]
-                $newFeature = layer
-                dataRef.doc(layer._leaflet_id).set(layer.feature)
-                  .then(() => console.log('Edit successful'))
-                  .then(() => $newFeature = '')
-                  .then(() => Object.keys($eivs).forEach(k => $eivs[k][0] = ''))
-                  .catch((e) => console.error(e + ', SHIT'))
+                console.log(layer)
+                if (layer.feature) {
+                  layer.feature.geometry.coordinates = [layer.getLatLng().lat.toPrecision(8), layer.getLatLng().lng.toPrecision(8)]
+                  $newFeature = layer
+                  dataRef.doc(layer.feature.properties.id[0]).set(layer.feature)
+                    .then(() => console.log('Edit successful'))
+                    .then(() => $newFeature = '')
+                    .then(() => Object.keys($eivs).forEach(k => $eivs[k][0] = ''))
+                    .catch((e) => console.error(e + ', SHIT'))
+                } else {
+                  $newFeature = layer
+                }
               })
             })
         }
       })
 
       sidebar.on('closing', (e) => {
-        if (drawControl) { map.removeControl(drawControl) }
+        if (editControl) { $map.removeControl(editControl) }
+        if (drawControl) { $map.removeControl(drawControl) }
         $newFeature = ''
+        newData.clearLayers()
       })
     }
 
     return () => {
+      unsubscribe()
       linkF.parentNode.removeChild(linkF)
       linkD.parentNode.removeChild(linkD)
       linkS.parentNode.removeChild(linkS)
@@ -142,10 +172,6 @@
     <ul role="tablist">
       <li><a href="#login" role="tab"><i class="fa fa-user"></i></a></li>
       <li><a href="#formeiv" role="tab"><i class="fa fa-table"></i></a></li>
-		</ul>	
-		<!-- bottom aligned tabs -->
-		<ul role="tablist">
-			<li><a href="https://github.com/k-onrad/svelte-dash"><i class="fa fa-github"></i></a></li>
 		</ul>
 	</div>
 
@@ -156,7 +182,7 @@
         Usuário
         <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
       </h1>
-      <User/>
+      <User {user}/>
     </div>
     
     <div class="leaflet-sidebar-pane" id="formeiv">
@@ -164,7 +190,7 @@
         Formulário EIVs
         <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
       </h1>
-      {#if $user && allowedUids.includes($user.uid)}
+      {#if user}
         <FormEIV on:message={formSubmitted}/>
       {:else}
         <p>Somente usuários habilitados podem utilizar o formulário.</p>

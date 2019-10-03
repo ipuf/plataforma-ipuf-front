@@ -1,5 +1,7 @@
 import { writable, derived } from 'svelte/store'
 
+export const map = writable('')
+
 export const user = writable('')
 
 export const newFeature = writable('')

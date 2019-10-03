@@ -22,7 +22,7 @@
     dispatch('message', {
       dataref: 'eivs',
       feature: feature,
-      id: feature.properties.id
+      id: feature.properties.id[0]
     })
 
     return console.log('Form submitted to control component.')
@@ -54,7 +54,7 @@
 <form on:submit|preventDefault={handleSubmit}>
 
   <Select categoria={inputArrays.categorias} bind:selected={$eivs.categoria[0]} placeholder="Tipo de estudo de impacto"/>
-  <Number bind:value={$eivs.processo_num[0]} placeholder="Ex.: 115.398" label="Número do processo" min="0" />
+  <Number bind:value={$eivs.processo_num[0]} placeholder="Ex.: 115398" label="Número do processo" min="0" />
   <Number bind:value={$eivs.processo_ano[0]} placeholder="Ex.: 2019" label="Ano do processo" min="1900" max="2100" />
   <Text bind:value={$eivs.empreendedor[0]} placeholder="Ex.: Construtora ABC" label="Nome do empreendedor"/>
   <Text bind:value={$eivs.empreendimento[0]} placeholder="Ex.: Residencial XYZ" label="Nome do empreendimento"/>
@@ -71,7 +71,7 @@
   <Date bind:value={$eivs.prazo_exec[0]} label="Data de execução" req='false' />
   <Number bind:value={$eivs.num_termo_receb[0]} placeholder="Ex.: 15" label="Número do termo de recebimento" min="0" req='false' />
   <Number bind:value={$eivs.ano_termo_receb[0]} placeholder="Ex.: 2019" label="Ano do termo de recebimento"min="1900" max="2100" req='false' />
-  <Number bind:value={$eivs.insc_imob[0]} placeholder="Ex.: 11075947593" label="Inscrição imobiliária" min="10000000000" />
+  <Number bind:value={$eivs.insc_imob[0]} placeholder="Ex.: 11075947593" label="Inscrição imobiliária" min="10000000000" req='false' />
   <Select categoria={inputArrays.distritos} bind:selected={$eivs.distrito[0]} placeholder="Nome do distrito"/>
   <Date bind:value={$eivs.tempo_inic[0]} label="Data de início do processo no IPUF"/>
   <Date bind:value={$eivs.tempo_fina[0]} label="Data de finalização do processo no IPUF" req='false' />
