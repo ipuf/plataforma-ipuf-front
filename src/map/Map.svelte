@@ -1,6 +1,6 @@
 <script>
-  import Basemap from '../map/Basemap.svelte'
-  import Layers from '../map/Layers.svelte'
+  import Basemap from './Basemap.svelte'
+  import Layers from './Layers.svelte'
 	import { editMode } from '../utils/stores.js'
   
   function toggleEdit() { $editMode ? $editMode = false : $editMode = true }
