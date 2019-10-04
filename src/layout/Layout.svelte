@@ -1,11 +1,11 @@
 <script>
 	import Sidenav from './Sidenav.svelte'
 	
-	let expanded = false
-	$: compressed = expanded
+	let content = false
+	$: compressed = content
 
 	function toggleSide (e) {
-		expanded = e.detail.expanded
+		content = e.detail.content
 	}
 </script>
 
@@ -15,85 +15,49 @@
 		flex-direction: row;
 		height: 100vh;
 	}
-	.col {
-		display: flex;
-		flex-direction: column;
-		height: 100vh;
-	}
 	main {
-		transition: all 0.5s ease-in-out;
+		position: absolute;
 		width: 100%;
 		height: 100%;
+		transition: all 0.5s ease-in-out;
 	}
 	aside {
-		overflow-y: auto;
+		position: absolute;
+		height: 100%;
+		display: flex;
 		box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.16);
+		z-index: 10000;
+		background: #fbfbfb;
+		width: 55px;
+		padding: 10px;
 		transition: all 0.5s ease-in-out;
-		z-index: 1;
-		width: 50px;
 	}
-	.expanded {
+	.content {
 		width: 100vw;
 		background: #fff;
 	}
-	.compressed {
-		width: 0;
-	}
   @media (max-width: 599px) {
 		aside {
-      width: 50px;
-			height: 50px !important;
-			position: fixed;
-			overflow: hidden;
+			height: 55px;
 			background: #fff;
     }
-    .expanded {
-      width: 100vw;
-			height: 100% !important;
-			background: #fff;
+    .content {
+			height: 100%;
     }
-		.compressed {
-			width: 0;
-			height: 0;
-		}
   }
   @media (min-width: 600px) and (max-width: 899px) {
-    .expanded {
-      width: 100vw;
-    }
-		.compressed {
-			width: 0;
-		}
   }
   @media (min-width: 900px) and (max-width: 1199px) {
-		aside {
-      width: 60px;
-    }
-    .expanded {
-      width: 100vw;
-    }
-		.compressed {
-			width: 0;
-		}
   }
   @media (min-width: 1200px) and (max-width: 1799px) {
-		aside {
-      width: 60px;
-    }
-    .expanded {
-      width: 100vw;
-    }
-		.compressed {
-			width: 0;
-		}
   }
 </style>
 
 <div class="row">
-	<aside class="col" class:expanded>
-		<Sidenav {expanded} on:toggle={toggleSide}/>
+	<aside class:content>
+		<Sidenav {content} on:toggle={toggleSide}/>
 	</aside>
-	<main class="col" class:compressed>
+	<main>
 		<slot></slot>
 	</main>
 </div>

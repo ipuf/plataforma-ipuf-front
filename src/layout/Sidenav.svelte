@@ -1,6 +1,7 @@
 <script>
+  import { fade } from 'svelte/transition'
   import Icon from 'svelte-awesome'
-  import { beer, bars, times, chevronDown } from 'svelte-awesome/icons'
+  import { beer, bars, chevronLeft, chevronDown } from 'svelte-awesome/icons'
   import { createEventDispatcher } from 'svelte';
 
   import Alternativos from '../categories/Alternativos.svelte'
@@ -12,10 +13,10 @@
   import Taxis from '../categories/Taxis.svelte'
 
   const dispatch = createEventDispatcher()
-  
-  export let expanded = false
-  let selected = false
-  
+
+  const iconStyles = `
+    color: gray;
+  `
   const categorias = [
     { id: 'alt', component: Alternativos, color: 'red', icon: beer, text: 'Alternativos' },
     { id: 'bus', component: Bus, color: 'red', icon: beer, text: 'Ônibus' },
@@ -26,12 +27,13 @@
     { id: 'tax', component: Taxis, color: 'red', icon: beer, text: 'Táxis' }
   ]
 
+  export let content = false
+  let selected = false
+  
   function toggleSidebar () {
     if (!selected) {
-      expanded = !expanded
-      dispatch('toggle', {
-        expanded: expanded
-      })
+      content = !content
+      dispatch('toggle', { content: content })
     } else {
       selected = false
     }
@@ -48,21 +50,28 @@
 </script>
 
 <style>
-  ul {
+  .icons {
+    display: flex;
+    flex-direction: column;
     height: 100%;
+  }
+  .content {
+    flex: 1;
+    display: none;
+  }
+  ul {
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding: 0;
     margin: 0;
-    list-style-type: none;
   }
   li {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0px 5px;
     color: #ddd
   }
   li:hover {
@@ -74,17 +83,15 @@
     justify-content: center;
     align-items: center;
   }
-  .menu {
-    display: flex;
-    padding: 0;
-    margin: 10px;
+  .toggle {
+    margin: 0 4px;
   }
   @media (max-width: 599px) {
-    ul {
+    .hidden {
       display: none;
     }
-    .expanded {
-      display: flex
+    .content {
+      display: flex;
     }
   }
   @media (min-width: 600px) and (max-width: 899px) {
@@ -95,28 +102,43 @@
   }
 </style>
 
-{#if !expanded}
-  <span class="menu" on:click={toggleSidebar}><Icon data={bars} scale=2 style="color: gray;"/></span>
-  <ul class:expanded>
+
+<div class="icons">
+  {#if !content}
+    <div class="toggle" on:click={toggleSidebar} in:fade="{{duration: 300}}">
+      <Icon data={bars} scale=2 style={iconStyles}/>
+    </div>
+  {:else}
+    <div class="toggle" on:click={toggleSidebar} in:fade="{{delay: 200, duration: 300}}">
+      <Icon data={chevronLeft} scale=2 style={iconStyles}/>
+    </div>
+  {/if}
+
+  <ul class="hidden">
     {#each categorias as categoria}
-      <li on:click={() => selected = categoria.component}><Icon data={categoria.icon} scale=2 style="color: gray;"/></li>
-    {/each}
-  </ul>
-{:else}
-  <span class="menu" on:click={toggleSidebar}><Icon data={times} scale=2 style="color: gray;"/></span>
-  <ul class:expanded>
-    {#each categorias as categoria (categoria)}
       <li on:click={() => toggleCategory(categoria.id)}>
-        <div class="catHeader">
-          <Icon data={categoria.icon} scale=2.25 style="color: gray;"/>
-          <p>{categoria.text}</p><Icon data={chevronDown} style="color: gray;"/>
-        </div>
-        <div class="catContent">
-          {#if selected === categoria.id}
-            <svelte:component this={categoria.component}/>
-          {/if}
-        </div>
+        <Icon data={categoria.icon} scale=2 style={iconStyles}/>
       </li>
     {/each}
   </ul>
+</div>
+
+{#if content}
+  <div class:content in:fade="{{delay: 200, duration: 300}}">
+    <ul>
+      {#each categorias as categoria (categoria)}
+        <li on:click={() => toggleCategory(categoria.id)}>
+          <div class="catHeader">
+            <p>{categoria.text}</p>
+            <Icon data={chevronDown} style={iconStyles}/>
+          </div>
+          <div class="catContent">
+            {#if selected === categoria.id}
+              <svelte:component this={categoria.component}/>
+            {/if}
+          </div>
+        </li>
+      {/each}
+    </ul>
+  </div>
 {/if}
