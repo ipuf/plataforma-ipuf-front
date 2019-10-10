@@ -1,72 +1,80 @@
 <script>
   import { fade } from 'svelte/transition'
   import Icon from 'svelte-awesome'
-  import { beer, chevronRight, chevronLeft, chevronDown } from 'svelte-awesome/icons'
-  import { createEventDispatcher } from 'svelte';
+  import { user, plus, edit, table } from 'svelte-awesome/icons'
 
-  import Alternativos from '../modals/Alternativos.svelte'
-  import Bus from '../modals/Bus.svelte'
-  import Ciclos from '../modals/Ciclos.svelte'
-  import CircViaria from '../modals/CircViaria.svelte'
-  import Logistica from '../modals/Logistica.svelte'
-  import Pedestres from '../modals/Pedestres.svelte'
-  import Taxis from '../modals/Taxis.svelte'
+  import Modal from './Modal.svelte'
+  import Profile from '../modals/Profile.svelte'
+  import Insert from '../modals/Insert.svelte'
+  import View from '../modals/View.svelte'
+  import Table from '../modals/Table.svelte'
 
-  export let expanded = false
-  let selected = false
-
-  const dispatch = createEventDispatcher()
-  const categorias = [
-    { component: Alternativos, icon: beer, text: 'Alternativos' },
-    { component: Bus, icon: beer, text: 'Ônibus' },
-    { component: Ciclos, icon: beer, text: 'Ciclos' },
-    { component: CircViaria, icon: beer, text: 'Circulação Viária' },
-    { component: Logistica, icon: beer, text: 'Logística' },
-    { component: Pedestres, icon: beer, text: 'Pedestres' },
-    { component: Taxis, icon: beer, text: 'Táxis' },
-    { component: Taxis, icon: beer, text: 'Táxis' },
-    { component: Taxis, icon: beer, text: 'Táxis' },
-    { component: Taxis, icon: beer, text: 'Táxis' }
+  const modes = [
+    { component: Profile, icon: user, text: 'Usuário' },
+    { component: Insert, icon: plus, text: 'Inserir processo' },
+    { component: View, icon: edit, text: 'Editar processo' },
+    { component: Table, icon: table, text: 'Visualizar tabela' },
   ]
- 
-  function toggleSidebar () {
-    expanded = !expanded
-    dispatch('toggle', { expanded: expanded })
-  }
 
-  function toggleCategory (component) {
-    dispatch('select', { selected: component })
-  }
+  let expanded = false
+  let selected = false
 </script>
 
 <style>
+  aside {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		position: absolute;
+		top: 50%;
+		transform: translate(0, -50%);
+		box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.16);
+		z-index: 600;
+		background: #fff;
+		width: 70px;
+		padding: 10px;
+		overflow-x: hidden;
+		transition: all 0.3s ease-in-out;
+    border-radius: 3px;
+	}
+	.expanded {
+		width: 225px;
+	}
   .btns {
     margin: 0;
-    padding: 0;
+    padding: 30px 10px;
     height: 45px;
     align-self: flex-start;
     display: flex;
     align-items: center;
   }
+  .icon {
+    width: 35px;
+    display: flex;
+    align-items: center;
+  }
   p {
     flex: 1;
-    margin-left: 15px;
+    margin-left: 10px;
   }
 </style>
 
-<span class="btns" on:click={() => toggleSidebar()} in:fade="{{delay: 300, duration: 300}}">
-  {#if !expanded}
-    <Icon data={chevronRight} scale=2 style="color:gray; margin-left: 6px;"/>
-  {:else}
-    <Icon data={chevronLeft} scale=2 style="color:gray; margin-left: 6px;"/>
-  {/if}
-</span>
+<aside 
+  class:expanded 
+  on:mouseenter={() => expanded = true} 
+  on:mouseleave={() => expanded = false}
+  on:click={() => expanded = true}
+  >
+  {#each modes as mode}
+    <span class="btns" on:click={() => selected === mode.component ? selected = false : selected = mode.component}>
+      <span class="icon"><Icon data={mode.icon} scale=2 style="color:gray;"/></span>
+      {#if expanded}
+        <p in:fade="{{delay: 300, duration: 200}}">{mode.text}</p>
+      {/if}
+    </span>
+  {/each}
+</aside>
 
-{#each categorias as categoria}
-  <span class="btns" on:click={() => toggleCategory(categoria.component)}>
-    <Icon data={categoria.icon} scale=2 style="color:gray;"/>
-    {#if expanded}
-      <p in:fade="{{delay: 300, duration: 300}}">{categoria.text}</p>
-    {/if}
-  </span>
-{/each}
+{#if selected}
+	<Modal {selected} on:click={() => selected = false}/>
+{/if}

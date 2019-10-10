@@ -1,44 +1,40 @@
 <script> 
-  import { createEventDispatcher } from 'svelte'
-
   export let selected
-
-	const dispatch = createEventDispatcher()
 </script>
-
-<div class='modal-background' on:click='{() => dispatch("close")}'></div>
-
-<div class='modal'>
-	<svelte:component this={selected}/>
-	<button on:click='{() => dispatch("close")}'>Fechar</button>
-</div>
 
 <style>
 	.modal-background {
 		position: fixed;
 		top: 0;
 		left: 0;
-		width: 100%;
-		height: 100%;
+		width: 100vw;
+		height: 100vh;
 		background: rgba(0,0,0,0.3);
+		z-index: 690;
 	}
-
 	.modal {
-		position: absolute;
+		position: fixed;
 		left: 50%;
 		top: 50%;
 		width: calc(100vw - 4em);
-		max-width: 32em;
+		max-width: 75vw;
 		max-height: calc(100vh - 4em);
 		overflow: auto;
 		transform: translate(-50%,-50%);
-		padding: 1em;
-		border-radius: 0.2em;
+		padding: 50px;
+		border-radius: 3px;
 		background: white;
     z-index: 700;
+		box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.16);
 	}
-
 	button {
 		display: block;
 	}
 </style>
+
+<div class='modal-background' on:click></div>
+
+<div class='modal'>
+	<svelte:component this={selected}/>
+	<button on:click>Fechar</button>
+</div>

@@ -1,10 +1,5 @@
 <script>
-  import { fade } from 'svelte/transition'
   import { features } from '../utils/stores.js'
-  import Icon from 'svelte-awesome'
-  import { faTimes } from '@fortawesome/free-solid-svg-icons'
-
-  export let zSpread
 
   function getData() {
     const dataset = []
@@ -22,15 +17,6 @@
 </script>
 
 <style>
-  .parent {
-    display: grid;
-    grid-template-columns: minmax(25px, 1fr) minmax(100px,15fr) minmax(25px, 1fr);
-    background: 	#F8F8F8;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, .4);
-    border-radius: 6px;
-    overflow: auto;
-    padding: 40px 0;
-  }
   table {
     margin: auto;
     border-collapse: collapse;
@@ -61,34 +47,21 @@
   tr:hover, tr:hover td{
     background: #E2E2E2;
   }
-  span {
-    justify-self: end;
-    cursor: pointer;
-    margin-top: -35px;
-    margin-right: 10px;
-    border: 0px
-  }
 </style>
 
-<div class="parent" in:fade="{{ delay: 200 }}" out:fade style="z-index:{zSpread};">
-  <div></div>
-  <table>
+<table>
+  <tr>
+    <td id="corner"></td>
+    {#each headers as header}
+      <th scope="col">{header}</th>
+    {/each}
+  </tr>
+  {#each dataset as data, i}
     <tr>
-      <td id="corner"></td>
-      {#each headers as header}
-        <th scope="col">{header}</th>
+      <th scope="row">{i + 1}</th>
+      {#each data as cell}
+        <td>{cell}</td>
       {/each}
     </tr>
-    {#each dataset as data, i}
-      <tr>
-        <th scope="row">{i + 1}</th>
-        {#each data as cell}
-          <td>{cell}</td>
-        {/each}
-      </tr>
-    {/each} 
-  </table>
-  <span on:click>
-    <Icon data={faTimes} scale="1.85"/>
-  </span>
-</div>
+  {/each} 
+</table>
