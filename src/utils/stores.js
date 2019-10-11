@@ -6,8 +6,6 @@ export const features = writable({})
 
 export const editMode = writable(false)
 
-export const rendered = writable(false)
-
 export const teste = writable({
   id: '',
   a: '',

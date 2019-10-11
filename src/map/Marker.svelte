@@ -1,8 +1,7 @@
 <script>
   import { onMount } from 'svelte'
 	import L from 'leaflet'
-  import { map, rendered } from '../utils/stores.js'
-  import Popup from './Popup.svelte'
+  import { map } from '../utils/stores.js'
 
   export let feature
 
@@ -36,15 +35,25 @@
           content = false
         }
       })
-    $rendered = true
     return () => {
       geom.remove()
     }
   })
 </script>
 
+<style>
+  table {
+    width: 100%;
+    height: 150px;
+  }
+</style>
+
 <div bind:this={popup}>
   {#if geom && content}
-    <Popup {feature} />
+    <table>
+      {#each Object.keys(feature.properties) as key}
+        <tr><th scope="row">{key}</th><td><p>{feature.properties[key]}</p></td></tr>
+      {/each}
+    </table>
   {/if}
 </div>

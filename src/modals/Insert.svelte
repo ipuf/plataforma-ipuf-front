@@ -5,7 +5,7 @@
   import Number from '../inputs/Number.svelte'
   import Date from '../inputs/Date.svelte'
   import { inputArrays } from '../utils/arrays.js'
-  import { makePointFeature, encodeCoords } from '../utils/helpers.js'
+  import { makePointFeature } from '../utils/helpers.js'
   import { eivs, newCoords } from '../utils/stores.js'
   
   $: lat = $newCoords ? $newCoords[0] : 'lat'
@@ -43,8 +43,6 @@
 </style>
 
 <form on:submit|preventDefault={handleSubmit}>
-
-  
   <Select categoria={inputArrays.categorias} bind:selected={$eivs.categoria[0]} placeholder="Tipo de estudo de impacto"/>
   <Number bind:value={$eivs.processo_num[0]} placeholder="Ex.: 115.398" label="Número do processo" min="0" />
   <Number bind:value={$eivs.processo_ano[0]} placeholder="Ex.: 2019" label="Ano do processo" min="1900" max="2100" />

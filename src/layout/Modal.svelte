@@ -14,9 +14,12 @@
 	}
 	.modal {
 		position: fixed;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 		left: 50%;
 		top: 50%;
-		width: calc(100vw - 4em);
 		max-width: 75vw;
 		max-height: calc(100vh - 4em);
 		overflow: auto;
@@ -25,7 +28,7 @@
 		border-radius: 3px;
 		background: white;
     z-index: 700;
-		box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.16);
+		box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
 	}
 	button {
 		display: block;

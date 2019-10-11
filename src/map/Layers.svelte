@@ -2,7 +2,7 @@
   import L from 'leaflet'
   import { features } from '../utils/stores.js'
   import { db } from '../utils/firebase.js'
-  import Feature from './Feature.svelte'
+  import Marker from './Marker.svelte'
 
   const dataRef = db.collection('teste')
   dataRef.onSnapshot(async (querySnapshot) => {
@@ -16,6 +16,6 @@
 
 {#if $features}
   {#each $features as feature}
-    <Feature {feature} />
+    <Marker {feature} />
   {/each}
 {/if}
