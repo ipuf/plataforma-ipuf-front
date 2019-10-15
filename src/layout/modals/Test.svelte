@@ -1,6 +1,6 @@
 <script>
-  import MarkerBtn from '../inputs/MarkerBtn.svelte'
-  import { eivs, newCoords } from '../utils/stores.js'
+  import MarkerBtn from '../../inputs/MarkerBtn.svelte'
+  import { eivs, newCoords } from '../../utils/stores.js'
   
   $: lat = $newCoords ? $newCoords[0] : 'lat'
   $: lng = $newCoords ? $newCoords[0] : 'lng'

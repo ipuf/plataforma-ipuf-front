@@ -1,5 +1,5 @@
 export function draggable (node) {
-	let x
+  let x
   let y
   let dragging = false
 
@@ -18,24 +18,24 @@ export function draggable (node) {
       window.removeEventListener('mousemove', handleMousemove)
       dragging = false
     }
-	}
+  }
 
-	function handleMousemove (e) {
-		const dx = e.clientX - x
-		const dy = e.clientY - y
-		x = e.clientX
-		y = e.clientY
+  function handleMousemove (e) {
+    const dx = e.clientX - x
+    const dy = e.clientY - y
+    x = e.clientX
+    y = e.clientY
 
-		node.dispatchEvent(new CustomEvent('drag', {
-			detail: { x, y, dx, dy }
-		}))
-	}
+    node.dispatchEvent(new CustomEvent('drag', {
+      detail: { x, y, dx, dy }
+    }))
+  }
 
-	node.addEventListener('click', handleClick)
+  node.addEventListener('click', handleClick)
 
-	return {
-		destroy() {
-			node.removeEventListener('click', handleClick)
-		}
-	}
+  return {
+    destroy () {
+      node.removeEventListener('click', handleClick)
+    }
+  }
 }

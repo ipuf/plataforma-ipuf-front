@@ -1,5 +1,28 @@
-<script> 
-  export let selected
+<script>
+	import User from './modals/User.svelte'
+	import Insert from './modals/Insert.svelte'
+	import Table from './modals/Table.svelte'
+	import Test from './modals/Test.svelte'
+	import View from './modals/View.svelte'
+	
+	export let modal
+
+	$: selected = getSelected(modal)
+
+	function getSelected (modal) {
+		switch (modal) {
+			case 'user':
+				return User
+			case 'cog':
+				return Test
+			case 'insert':
+				return Insert
+			case 'edit':
+				return View
+			case 'table':
+				return Table
+		}
+	}
 </script>
 
 <style>

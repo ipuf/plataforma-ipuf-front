@@ -1,9 +1,9 @@
 <script>
   import Icon from 'svelte-awesome'
-  import { auth, googleProvider } from '../utils/firebase.js'
-  import { user } from '../utils/stores.js'
+  import { auth, googleProvider } from '../../utils/firebase.js'
+  import { user } from '../../utils/stores.js'
   import { authState } from 'rxfire/auth'
-  import UserInfo from './UserInfo.svelte'
+  import UserInfo from './user/UserInfo.svelte'
 
   const unsubscribe = authState(auth).subscribe(u => $user = u)
 

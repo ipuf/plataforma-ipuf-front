@@ -1,12 +1,10 @@
 <script>
-  import MarkerBtn from '../inputs/MarkerBtn.svelte'
-  import Select from '../inputs/Select.svelte'
-  import Text from '../inputs/Text.svelte'
-  import Number from '../inputs/Number.svelte'
-  import Date from '../inputs/Date.svelte'
-  import { inputArrays } from '../utils/arrays.js'
-  import { makePointFeature } from '../utils/helpers.js'
-  import { eivs, newCoords } from '../utils/stores.js'
+  import Select from '../../inputs/Select.svelte'
+  import Text from '../../inputs/Text.svelte'
+  import Number from '../../inputs/Number.svelte'
+  import { inputArrays } from '../../utils/arrays.js'
+  import { makePointFeature } from '../../utils/helpers.js'
+  import { eivs, newCoords } from '../../utils/stores.js'
   
   $: lat = $newCoords ? $newCoords[0] : 'lat'
   $: lng = $newCoords ? $newCoords[0] : 'lng'
@@ -15,11 +13,12 @@
     const feature = makeFeature($eivs, lat, lng)
 
     dispatch('message', {
-      feature: feature
+      dataref: 'eivs',
+      feature: feature,
     })
   }
 </script>
-
+<!-- 
 <style>
   form {
     padding-top: 3%;
@@ -40,9 +39,10 @@
   input::placeholder {
     color: rgb(150, 150, 150);
   }
-</style>
+</style> -->
 
-<form on:submit|preventDefault={handleSubmit}>
+<!-- <form on:submit|preventDefault={handleSubmit}>
+
   <Select categoria={inputArrays.categorias} bind:selected={$eivs.categoria[0]} placeholder="Tipo de estudo de impacto"/>
   <Number bind:value={$eivs.processo_num[0]} placeholder="Ex.: 115.398" label="Número do processo" min="0" />
   <Number bind:value={$eivs.processo_ano[0]} placeholder="Ex.: 2019" label="Ano do processo" min="1900" max="2100" />
@@ -68,4 +68,4 @@
   <Date bind:value={$eivs.data_atualiz[0]} label="Última data de atualização do processo para controle"/>
   
   <input type="submit" value="Enviar">
-</form>
+</form> -->

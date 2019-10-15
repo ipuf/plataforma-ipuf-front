@@ -5,6 +5,9 @@
 <script>
 	import Map from './map/Map.svelte'
 	import Sidenav from './layout/Sidenav.svelte'
+	import Modal from './layout/Modal.svelte'
+
+	let modal = false
 </script>
 
 <style>
@@ -21,5 +24,8 @@
 	}
 </style>
 
-<Sidenav/>
+{#if modal}
+	<Modal {modal} on:click={() => modal = false}/>
+{/if}
+<Sidenav {modal} on:modal={(e) => modal = e.detail.selected}/>
 <Map/>

@@ -2,7 +2,7 @@
   import { onMount } from 'svelte'
   import L from 'leaflet'
   import { map } from '../utils/stores.js'
-  import { loadCSS } from '../utils/helpers.js'
+  import { loadStyles } from '../utils/helpers.js'
    
   export let lat
   export let lon
@@ -12,7 +12,7 @@
   let latlong
 
   onMount(() => {
-    const link = loadCSS('https://unpkg.com/leaflet@1.5.1/dist/leaflet.css')
+    const link = loadStyles('https://unpkg.com/leaflet@1.5.1/dist/leaflet.css')
 
     link.onload = () => {
       $map = L.map(container, {

@@ -4,7 +4,6 @@
   import Icon from 'svelte-awesome'
   import { mapMarker } from 'svelte-awesome/icons'
 
-  let dragging = false
   let start = false
   let x = 0
   let y = 0
@@ -22,22 +21,17 @@
  
   function dropMarker () {
     start = true
-    let done = false
-    let dragging = false
   }
 </script>
 
 <style>
 	.box {
-		--width: 100px;
-		--height: 100px;
 		position: fixed;
-		width: var(--width);
-		height: var(--height);
+    display: flex;
 		left: calc(50% - var(--width) / 2);
 		top: calc(50% - var(--height) / 2);
 		border-radius: 4px;
-	cursor: move;
+	  cursor: move;
     z-index: 900;
 	}
 </style>

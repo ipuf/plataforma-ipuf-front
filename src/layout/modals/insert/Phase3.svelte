@@ -1,51 +1,6 @@
-<script>
-  import Select from '../inputs/Select.svelte'
-  import Text from '../inputs/Text.svelte'
-  import Number from '../inputs/Number.svelte'
-  import Date from '../inputs/Date.svelte'
-  import { inputArrays } from '../utils/arrays.js'
-  import { makePointFeature, encodeCoords } from '../utils/helpers.js'
-  import { eivs, newCoords } from '../utils/stores.js'
-  
-  $: lat = $newCoords ? $newCoords[0] : 'lat'
-  $: lng = $newCoords ? $newCoords[0] : 'lng'
-  $: $eivs.id = $newCoords ? encodeCoords($newCoords) : ''
-  
-  function handleSubmit () {
-    const feature = makeFeature($eivs, lat, lng)
+<p>content</p>
 
-    dispatch('message', {
-      dataref: 'eivs',
-      feature: feature,
-      id: feature.properties.id
-    })
-  }
-</script>
-
-<style>
-  form {
-    padding-top: 3%;
-    font-family: sans-serif;
-  }
-  input[type=submit] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 12px 20px;
-    margin-bottom: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  input[type=submit]:hover {
-    background-color: #45a049;
-  }
-  input::placeholder {
-    color: rgb(150, 150, 150);
-  }
-</style>
-
-<form on:submit|preventDefault={handleSubmit}>
-
+<!-- <form on:submit|preventDefault={handleSubmit}>
   <Select categoria={inputArrays.categorias} bind:selected={$eivs.categoria[0]} placeholder="Tipo de estudo de impacto"/>
   <Number bind:value={$eivs.processo_num[0]} placeholder="Ex.: 115.398" label="Número do processo" min="0" />
   <Number bind:value={$eivs.processo_ano[0]} placeholder="Ex.: 2019" label="Ano do processo" min="1900" max="2100" />
@@ -71,4 +26,4 @@
   <Date bind:value={$eivs.data_atualiz[0]} label="Última data de atualização do processo para controle"/>
   
   <input type="submit" value="Enviar">
-</form>
+</form> -->

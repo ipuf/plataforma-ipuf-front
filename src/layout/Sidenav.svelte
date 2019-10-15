@@ -1,26 +1,19 @@
 <script>
-  import { fade } from 'svelte/transition'
+  import { createEventDispatcher } from 'svelte'
   import Icon from 'svelte-awesome'
-  import { cog, user, plus, edit, table } from 'svelte-awesome/icons'
+  import { chevronRight, chevronLeft, cog, user, plus, edit, table } from 'svelte-awesome/icons'
+  import Btn from './sidenav/Btn.svelte'
 
-  import Modal from './Modal.svelte'
-  import TestBtn from '../modals/TestBtn.svelte'
-  import Profile from '../modals/Profile.svelte'
-  import Insert from '../modals/Insert.svelte'
-  import View from '../modals/View.svelte'
-  import Table from '../modals/Table.svelte'
+  const dispatch = createEventDispatcher()
 
-  const modes = [
-    { component: TestBtn, icon: cog, text: 'Botão teste' },
-    { component: Profile, icon: user, text: 'Usuário' },
-    { component: Insert, icon: plus, text: 'Inserir processo' },
-    { component: View, icon: edit, text: 'Editar processo' },
-    { component: Table, icon: table, text: 'Visualizar tabela' },
-  ]
+  export let modal
+  let expanded = false
 
-  let expanded = false 
-  let selected = false
-  let clicked = ''
+  function toggleModal (modal) {
+    dispatch('modal', {
+      selected: modal
+    })
+  }
 </script>
 
 <style>
@@ -41,55 +34,36 @@
 	}
 	.expanded {
 		width: 225px;
+    transition: all 0.3s ease-in-out;
 	}
-  .btns {
-    margin: 0;
-    padding: 30px 10px;
-    height: 50px;
-    width: 100%;
-    align-self: flex-start;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .icon {
-    width: 35px;
-    display: flex;
-    align-items: center;
-  }
-  p {
-    flex: 1;
-    margin-left: 10px;
-  }
-  .clicked {
-    background-color: darkblue;
-  }
-  .clicked * {
-    color: white;
-  }
 </style>
 
-<aside 
-  class:expanded 
-  on:mouseenter={() => expanded = true} 
-  on:mouseleave={() => expanded = false}
-  >
-  {#each modes as mode}
-    <span 
-      class:clicked="{selected === mode.component}"
-      class="btns" 
-      on:click={() => selected === mode.component ? selected = false : selected = mode.component}
-      >
-        <span class="icon">
-          <Icon data={mode.icon} scale=2 style="color:{selected === mode.component ? 'white' : 'gray'};"/>
-        </span>
-        {#if expanded}
-          <p in:fade="{{delay: 300, duration: 200}}">{mode.text}</p>
-        {/if}
-    </span>
-  {/each}
+<aside class:expanded>
+  <Btn {modal} on:click={() => expanded = !expanded}>
+    {#if !expanded}
+      <Icon data={chevronRight} scale=2 style="color:'gray'};"/>
+    {:else}
+      <Icon data={chevronLeft} scale=2 style="color:'gray'};"/>
+    {/if}
+  </Btn>
+  <Btn {expanded} {modal} content={'cog'} on:click={() => toggleModal('cog')}>
+    <Icon data={cog} scale=2 style="color:{modal === 'cog' ? 'white' : 'gray'};"/>
+    <p slot="text">Teste inserção</p>
+  </Btn>
+  <Btn {expanded} {modal} content={'user'} on:click={() => toggleModal('user')}>
+    <Icon data={user} scale=2 style="color:{modal === 'user' ? 'white' : 'gray'};"/>
+    <p slot="text">Usuário</p>
+  </Btn>
+  <Btn {expanded} {modal} content={'insert'} on:click={() => toggleModal('insert')}>
+    <Icon data={plus} scale=2 style="color:{modal === 'plus' ? 'white' : 'gray'};"/>
+    <p slot="text">Inserir processo</p>
+  </Btn>
+  <Btn {expanded} {modal} content={'edit'} on:click={() => toggleModal('edit')}>
+    <Icon data={edit} scale=2 style="color:{modal === 'edit' ? 'white' : 'gray'};"/>
+    <p slot="text">Editar processo</p>
+  </Btn>
+  <Btn {expanded} {modal} content={'table'} on:click={() => toggleModal('table')}>
+    <Icon data={table} scale=2 style="color:{modal === 'table' ? 'white' : 'gray'};"/>
+    <p slot="text">Tabela de atributos</p>
+  </Btn>
 </aside>
-
-{#if selected}
-	<Modal {selected} on:click={() => selected = false}/>
-{/if}
