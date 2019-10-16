@@ -28,7 +28,7 @@
 		z-index: 600;
 		background: #fff;
 		width: 70px;
-		overflow-x: hidden;
+		overflow: hidden;
 		transition: all 0.3s ease-in-out;
     border-radius: 3px;
 	}
@@ -41,9 +41,9 @@
 <aside class:expanded>
   <Btn {modal} on:click={() => expanded = !expanded}>
     {#if !expanded}
-      <Icon data={chevronRight} scale=2 style="color:'gray'};"/>
+      <Icon data={chevronRight} scale=2 style="color:gray;"/>
     {:else}
-      <Icon data={chevronLeft} scale=2 style="color:'gray'};"/>
+      <Icon data={chevronLeft} scale=2 style="color:gray;"/>
     {/if}
   </Btn>
   <Btn {expanded} {modal} content={'cog'} on:click={() => toggleModal('cog')}>

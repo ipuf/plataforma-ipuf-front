@@ -20,6 +20,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background: none;
   }
   .icon {
     width: 35px;
