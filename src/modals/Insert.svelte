@@ -4,10 +4,12 @@
   import { quintOut } from 'svelte/easing'
   
   import Err from './insert/Error.svelte'
-  import Phase1 from './insert/Phase1.svelte'
-	import Phase2 from './insert/Phase2.svelte'
-	import Phase3 from './insert/Phase3.svelte'
-	import Phase4 from './insert/Phase4.svelte'
+  import AddGeom from './insert/AddGeom.svelte'
+	import AddProc from './insert/AddProc.svelte'
+	import Eiv1 from './insert/Eiv1.svelte'
+  import Eiv2 from './insert/Eiv2.svelte'
+  import Eiv3 from './insert/Eiv3.svelte'
+  import Eiv4 from './insert/Eiv4.svelte'
   import Result from './insert/Result.svelte'
   
   export let user = false
@@ -16,10 +18,13 @@
   let done = false
   let step = 1
   let phases = [
-    Phase1,
-    Phase2,
-    Phase3,
-    Phase4,
+    AddGeom,
+    AddProc,
+    Eiv1,
+    Eiv2,
+    Eiv3,
+    Eiv4,
+    Result
   ]
 
   $: current = phases[step]
@@ -52,6 +57,9 @@
   }
 </script>
 
+<!-- <div transition:slide="{{ easing: quintOut }}">
+	<Local on:send={nextPage} on:back={backPage} />
+</div> -->	
 <!-- Check if user is authenticated -->
 <!-- {#if !user}
   <!-- Modal should unmount insert -->
