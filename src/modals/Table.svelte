@@ -1,5 +1,5 @@
 <script>
-  import { features } from '../../utils/stores.js'
+  import { features } from '../utils/stores.js'
 
   function getData() {
     const dataset = []

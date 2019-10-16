@@ -1,17 +1,17 @@
 <script>
   import { onMount } from 'svelte'
-	import L from 'leaflet'
+  import L from 'leaflet'
+  import { fade } from 'svelte/transition'
   import { map } from '../utils/stores.js'
 
   export let feature
+  const type = feature.geometry.type
+  const coords = feature.geometry.coordinates
 
   let geom
   let popup
   let content = false
   
-  const type = feature.geometry.type
-  const coords = feature.geometry.coordinates
-
   switch (type) {
     case 'Point':
       const [lon, lat] = [coords[0], coords[1]]
@@ -28,13 +28,10 @@
     geom.addTo($map)
       .bindPopup(popup, { minWidth: 250, maxWidth: 250, minHeight: 150, maxHeight: 150 })
       .on('popupopen popupclose', (e) => {
-        if (!content) {
-          content = true
-          $map.setView(e.target.getLatLng(), 12)
-        } else {
-          content = false
-        }
+        $map.setView(e.target.getLatLng(), 12) 
+        content = !content
       })
+    
     return () => {
       geom.remove()
     }
@@ -50,7 +47,7 @@
 
 <div bind:this={popup}>
   {#if geom && content}
-    <table>
+    <table transition:fade="{{ duration: 200 }}">
       {#each Object.keys(feature.properties) as key}
         <tr><th scope="row">{key}</th><td><p>{feature.properties[key]}</p></td></tr>
       {/each}

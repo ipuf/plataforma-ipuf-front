@@ -1,7 +1,7 @@
 <script>
   import Icon from 'svelte-awesome'
-  import { auth, googleProvider } from '../../utils/firebase.js'
-  import { user } from '../../utils/stores.js'
+  import { auth, googleProvider } from '../utils/firebase.js'
+  import { user } from '../utils/stores.js'
   import { authState } from 'rxfire/auth'
   import UserInfo from './user/UserInfo.svelte'
 
@@ -23,12 +23,11 @@
     transition: all 0.4s;
   }
   button {
-    align-self: end;
     background-color: #4CAF50;
     color: white;
     padding: 5px;
-    margin-bottom: 20px;
-    width: 200px;
+    margin: 30px;
+    width: 150px;
     height: 50px;
     border: none;
     border-radius: 4px;

@@ -1,12 +1,11 @@
 <script>
-  import { fade } from 'svelte/transition'
+   import { fade } from 'svelte/transition'
 
-  export let expanded = false
-  export let content
-  export let modal
-  export let text = 'placeholder'
-
-  $: selected = content && modal === content ? true : false
+  export let expanded
+  export let selected = false
+  export let id
+  
+  $: active = selected === id ? true : false
 </script>
 
 <style>
@@ -32,17 +31,17 @@
     flex: 1;
     margin-left: 10px;
   }
-  .selected {
+  .active {
     background-color: darkblue;
   }
-  .selected * {
+  .active * {
     color: white;
   }
 </style>
 
 <button
   type="button" 
-  class:selected
+  class:active
   class="btn" 
   on:click
   >
