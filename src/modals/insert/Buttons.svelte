@@ -1,19 +1,11 @@
 <script>
 	import { createEventDispatcher } from 'svelte'
 
-	export let result
 	const dispatch = createEventDispatcher()
-
-	function closeModal () {
-		dispatch('close', {
-			selected: false,
-			modal: false
-		})
-	}
 </script>
 
 <style>
-	.buttons {
+  .buttons {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -21,8 +13,9 @@
     justify-content: space-between;
 		align-items: center;
     align-content: flex-end;
-		width: 75%;
-		margin: auto; 
+		width: 100%;
+		margin-top: 15px;
+		margin-bottom: 10px;
   }
 	.next {
 		flex: 1;
@@ -57,15 +50,21 @@
 		opacity: 1;
 		right: 0;
 	}
+	.back {
+		flex: 1;
+		font-size: 1em;
+		border-radius: 2px;
+		background-color: #44a64a;
+		border: none;
+		color: #FFFFFF;
+		text-align: center;
+		padding: 17.5px;
+		cursor: pointer;
+		margin-right: 10px;
+	}
 </style>
 
 <div class="buttons">
-	{#if result === true}
-  	<h2>Formulário enviado com sucesso. Clique para inserir o próximo ponto.</h2>
-		<button class="next" on:click={closeModal}><span>Próximo ponto</span></button>
-	{:else}
-		<h2>Erro no envio de formulário. Clique para começar novamente.</h2>
-		<button class="next" on:click={closeModal}><span>Recomeçar inserção</span></button>
-		<p>ERRO: {result}</p>
-  {/if}
+  <button class="back" type="button" on:click={() => dispatch('back')}><span>Voltar </span></button>
+	<button class="next" type="button" on:click={() => dispatch('next')}><span>Próximo </span></button>
 </div>

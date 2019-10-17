@@ -4,7 +4,8 @@
 
 <script>
 	import Map from './map/Map.svelte'
-  import Layers from './map/Layers.svelte'
+	import Layers from './map/Layers.svelte'
+	import Draw from './map/Draw.svelte'
 
 	import Sidenav from './sidenav/Sidenav.svelte'
 	import ModalBtn from './sidenav/ModalBtn.svelte'
@@ -18,6 +19,8 @@
 
 	import Icon from 'svelte-awesome'
 	import { cog, user, plus, edit, table } from 'svelte-awesome/icons'
+
+	import { mode } from './utils/stores.js'
 
 	let expanded = false
 	let modal = false
@@ -46,10 +49,12 @@
 	}
 </style>
 
-{#if modal}
+{#if modal && !$mode}
 	<Modal on:click={() => [selected, modal] = [false, false]}>
-		<svelte:component this={modal}/>
+		<svelte:component on:close={() => [selected, modal] = [false, false]} this={modal}/>
 	</Modal>
+{:else if $mode === 'draw'}
+	<Draw/>
 {/if}
 
 <Sidenav {expanded} on:click={() => expanded = !expanded}>

@@ -34,7 +34,7 @@
 
 </style>
 
-<div class='modal-background' on:click></div>
+<div class='modal-background'></div>
 
 <div class='modal'>
 	<slot></slot>

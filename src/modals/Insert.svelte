@@ -1,7 +1,6 @@
 <script>
+  import { createEventDispatcher } from 'svelte'
   import { postObj } from '../utils/helpers.js'
-  import { slide } from 'svelte/transition'
-  import { quintOut } from 'svelte/easing'
   
   import Err from './insert/Error.svelte'
   import AddGeom from './insert/AddGeom.svelte'
@@ -12,55 +11,61 @@
   import Eiv4 from './insert/Eiv4.svelte'
   import Result from './insert/Result.svelte'
   
-  export let user = false
+  export let user = true
 
+  const dispatch = createEventDispatcher()
   const form = []
-  let done = false
-  let step = 1
-  let phases = [
+  const phases = [
     AddGeom,
     AddProc,
-    Eiv1,
-    Eiv2,
-    Eiv3,
-    Eiv4,
-    Result
   ]
+  let step = 0
 
   $: current = phases[step]
-
+  $: done = step === phases.length ? true : false
+  $: response = done ? sendForm(form) : false
+  
   function backPage () {
-    if (step > 0) {
-      step -=1
-    } else if (step === 0) {
-      //unmount Insert Modal
+    step -=1
+    form.pop()
+
+    if (step < 0) {
+      form.length = 0
+      dispatch('close')
     }
   }
 
   function nextPage (e) {
-    form.push(e.detail.body)
-    //console.log(form) //debugging
+    form.push({ [e.detail.key]: [e.detail.value] })
     step += 1
   }
 
-  function insertObj (e) {
-    form.push(e.detail.body)
-    //console.log(form) //debugging
-    
+  function sendForm (form) {
     // API expects JSON
     let postObj = {}
     for (obj in form) {
       postObj = { ...postObj, ...obj }
     }
-    
-    postObj(postObj)
+
+    return postObj('http://192.168.173.66/insert', postObj)
   }
 </script>
 
-<!-- <div transition:slide="{{ easing: quintOut }}">
-	<Local on:send={nextPage} on:back={backPage} />
-</div> -->	
-<!-- Check if user is authenticated -->
-<!-- {#if !user}
-  <!-- Modal should unmount insert -->
-  <!-- <Modal {Err} on:click={() => {}}/> -->
+{#if !user}
+	<p>Você precisa ter autorização para isso.</p>
+{:else if user && !done}
+  <div>
+    <!-- All phases must dispatch a back and next event -->
+    <svelte:component on:back={backPage} on:next={nextPage} this={current}/>
+  </div>		
+{:else if user && done}
+	<div>
+    {#await response}
+      <p>Enviando processo...</p>
+    {:then ok}
+		  <Result result={true} on:close />
+    {:catch error}
+      <Result result={error} on:close />
+    {/await}
+	</div>
+{/if}
