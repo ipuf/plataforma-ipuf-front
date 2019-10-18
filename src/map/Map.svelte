@@ -1,44 +1,47 @@
 <script>
   import { onMount } from 'svelte'
-  import L from 'leaflet'
+  import 'ol/ol.css'
+  import { Map, View } from 'ol'
+  import TileLayer from 'ol/layer/Tile'
+  import XYZ from 'ol/source/XYZ'
+  import { fromLonLat } from 'ol/proj'
   import { map } from '../utils/stores.js'
-  import { loadStyles } from '../utils/helpers.js'
    
   export let lat
   export let lon
   export let zoom
 
   let container
-  let latlong
 
   onMount(() => {
-    const link = loadStyles('https://unpkg.com/leaflet@1.5.1/dist/leaflet.css')
-
-    link.onload = () => {
-      $map = L.map(container, {
-        zoomControl: false
-      })
-      $map.setView([lat, lon], zoom)
-
-      /* const esriWorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-      }) */
-
-      const cartoDB = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 19
-      }).addTo($map)
-
-      /* const baseMaps = {'Carto Positron': cartoDB, 'ESRI Satellite': esriWorldImagery} */
-
-      /* L.control.layers(baseMaps).addTo($map) */
-      /* L.control.zoom({ position: 'topright' }).addTo($map) */
-    }
+    $map = new Map({
+      target: container,
+      layers: [
+        /* new TileLayer({
+          source: new XYZ({
+            attributions: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' + 
+              '&copy; <a href="https://carto.com/attributions">CARTO</a>',
+            url: 'https://server.arcgisonline.com/ArcGIS/rest/services/' +
+              'World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
+          })
+        }), */
+        new TileLayer({
+          source: new XYZ({
+            attributions: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' + 
+              '&copy; <a href="https://carto.com/attributions">CARTO</a>',
+            url: 'http://{1-4}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+          })
+        })
+      ],
+      view: new View ({
+        center: fromLonLat([lon, lat]),
+        zoom: zoom
+      }),
+      controls: []
+    })
 
     return () => {
       $map.remove()
-      link.parentNode.removeChild(link)
     }
   })
 </script>

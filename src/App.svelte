@@ -66,6 +66,6 @@
 	{/each}
 </Sidenav>
 
-<Map lat={-27.59} lon={-48.54} zoom={12}>
+<Map lon={-48.54} lat={-27.59} zoom={12}>
   <Layers/>
 </Map>

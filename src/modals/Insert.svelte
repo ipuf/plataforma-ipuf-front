@@ -5,10 +5,6 @@
   import Err from './insert/Error.svelte'
   import AddGeom from './insert/AddGeom.svelte'
 	import AddProc from './insert/AddProc.svelte'
-	import Eiv1 from './insert/Eiv1.svelte'
-  import Eiv2 from './insert/Eiv2.svelte'
-  import Eiv3 from './insert/Eiv3.svelte'
-  import Eiv4 from './insert/Eiv4.svelte'
   import Result from './insert/Result.svelte'
   
   export let user = true

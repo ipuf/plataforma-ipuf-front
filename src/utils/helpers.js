@@ -28,6 +28,20 @@ function makePtFeature (obj, lat, lng) {
   }
 }
 
+function makeFeatCol (arrayOfFeatures) {
+  // receive firebase data, convert to feature collection
+  return {
+    type: 'FeatureCollection',
+    crs: {
+      type: 'name',
+      properties: {
+        name: 'EPSG:4326'
+      }
+    },
+    features: arrayOfFeatures ? Object.values(arrayOfFeatures) : ''
+  }
+}
+
 async function postObj (url, obj) {
   try {
     const response = await fetch(url, {
@@ -44,4 +58,4 @@ async function postObj (url, obj) {
   }
 }
 
-export { loadStyles, getPopupContent, makePtFeature, postObj }
+export { loadStyles, getPopupContent, makePtFeature, makeFeatCol, postObj }

@@ -40,8 +40,3 @@ export const inputArrays = {
     { value: 'concluido', text: 'Concluído' }
   ]
 }
-
-export const allowedUids = [
-  'a5qS2Oo9SlWDMi3LvZtFjAbsZwg1',
-  'j8FuZZb5YARNLyZjPCjPn8VldRY2'
-]

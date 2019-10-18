@@ -24,6 +24,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.10.2",
     "firebase": "^6.4.2",
     "leaflet": "^1.5.1",
+    "ol": "^6.0.1",
     "rxfire": "^3.7.0",
     "rxjs": "^6.5.2",
     "svelte-awesome": "^2.2.0"

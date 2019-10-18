@@ -1,21 +1,28 @@
-<script>
-  import L from 'leaflet'
-  import { features } from '../utils/stores.js'
+<script> 
+  import { fromLonLat } from 'ol/proj'
   import { db } from '../utils/firebase.js'
-  import Marker from './Marker.svelte'
+  import { makeFeatCol } from '../utils/helpers.js'
+  import Overlay from './Overlay.svelte'
+
+  let featArray = []
+  let featCollection = false
 
   const dataRef = db.collection('teste')
-  dataRef.onSnapshot(async (querySnapshot) => {
-    $features = []
+  dataRef.onSnapshot((querySnapshot) => {
+    featArray = []
 
     querySnapshot.forEach((doc) => { 
-      $features.push(doc.data())
+      let feature = doc.data()
+      feature.geometry.coordinates.reverse()
+      feature.geometry.coordinates = fromLonLat(feature.geometry.coordinates)
+      featArray.push(feature)
     })
+
+    featCollection = makeFeatCol(featArray)
   })
+  
 </script>
 
-{#if $features}
-  {#each $features as feature}
-    <Marker {feature} />
-  {/each}
+{#if featCollection}
+  <Overlay features={featCollection} />
 {/if}
