@@ -40,7 +40,13 @@
 <script>
     // import { saveEiv } from './firebase.js'
 
-    export let categorias
+    const categorias = [
+      {value: 'linhas', text: 'Linhas'},
+      {value: 'qualidade_onibus', text: 'Qualidade dos ônibus'},
+      {value: 'pontos_terminais', text: 'Pontos e terminais'},
+      {value: 'corredores_onibus', text: 'Corredores de ônibus'},
+      {value: 'outros', text: 'Outros'}
+    ]
 
     let categoriaSelect = ''
     let propostaInput = ''
@@ -85,5 +91,3 @@
     <br> 
     <input type="submit" value="Enviar">
 </form>
-
-

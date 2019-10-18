@@ -16,14 +16,10 @@
 	import Edit from './modals/Edit.svelte'
 	import Table from './modals/Table.svelte'
 
-	import FormGenerico from './modals/etapas/FormTemplate.svelte'
-	import { categoriaCargaLogis, categoriaCiclos, categoriaCirculacaoViaria,
-             categoriaIndividualMotorizado, categoriaModosAlternativos,
-			 categoriaOnibus, categoriaPedestres, categoriaTaxisAplicativos } from './modals/etapas/arrStores.js'
-			 
+		 
+
 
 	import Form from './modals/Form.svelte'
-
 
 	import Icon from 'svelte-awesome'
 	import { cog, user, plus, edit, table } from 'svelte-awesome/icons'
@@ -31,25 +27,19 @@
 	let expanded = false
 	let modal = false
 	let selected = false
+	let posicao = ''
 
-	// const content = [
-	// 	{ id: 'user', icon: user, component: User, text: "Usuário" },
-	// 	{ id: 'test', icon: cog, component: Test, text: "Teste inserção" },
-	// 	{ id: 'plus', icon: plus,  component: Insert , text: "Inserir processo" },
-	// 	{ id: 'edit', icon: edit,  component: Edit, text: "Editar processo" },
-	// 	{ id: 'table', icon: table,  component: Table, text: "Visualizar tabela" },
-	// ]
 
 	const content = [
-		{ id: 'pedestres', icon: cog, component: User, text: "Pedestres" },
-		{ id: 'ciclos', icon: cog, component: Test, text: "Ciclos" },
-		{ id: 'onibus', icon: cog,  component: Insert , text: "Ônibus" },
-		{ id: 'velocidade', icon: cog,  component: Edit, text: "Velocidade" },
-		{ id: 'indMoto', icon: cog,  component: Table, text: "Individual Motorizado" },
-		{ id: 'circVia', icon: cog,  component: Table, text: "Circulação Viária" },
-		{ id: 'carLog', icon: cog,  component: Table, text: "Carga e Logística" },
-		{ id: 'taxApp', icon: cog,  component: Table, text: "Táxi e Aplicativos" },
-		{ id: 'modAlt', icon: cog,  component: Table, text: "Modos Alternativos" }
+		{ id: 'pedestres', icon: cog, component: User, text: "Pedestres", posicao: 0 },
+		{ id: 'ciclos', icon: cog, component: Test, text: "Ciclos", posicao: 1 },
+		{ id: 'onibus', icon: cog,  component: Insert , text: "Ônibus", posicao: 2 },
+		{ id: 'velocidade', icon: cog,  component: Edit, text: "Velocidade", posicao: 3 },
+		{ id: 'indMoto', icon: cog,  component: Table, text: "Individual Motorizado", posicao: 4 },
+		{ id: 'circVia', icon: cog,  component: Table, text: "Circulação Viária", posicao: 5 },
+		{ id: 'carLog', icon: cog,  component: Table, text: "Carga e Logística", posicao: 6 },
+		{ id: 'taxApp', icon: cog,  component: Table, text: "Táxi e Aplicativos", posicao: 7 },
+		{ id: 'modAlt', icon: cog,  component: Table, text: "Modos Alternativos", posicao: 8 }
 	]
 
 	const descricao = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin gravida nisi ac dui tincidunt,' +
@@ -74,17 +64,14 @@
 </style>
 
 {#if modal}
-	<Modal on:click={() => [selected, modal] = [false, false]}>
-		<!-- <svelte:component this={modal}/> -->
-		<Form/>
-		<!-- {descricao} -->
-		<!-- <FormGenerico categorias={categoriaCiclos}/> -->
+	<Modal on:click={() => [selected, modal, posicao] = [false, false, '']}>
+		<Form eixo={posicao}/>
 	</Modal>
 {/if}
 
 <Sidenav {expanded} on:click={() => expanded = !expanded}>
 	{#each content as { id, icon, component, text }}
-		<ModalBtn {expanded} {selected} {id} on:click={() => [selected, modal] = [id, component]}>
+		<ModalBtn {expanded} {selected} {id} on:click={() => [selected, modal, posicao] = [id, component, posicao]}>
 			<Icon data={icon} scale=2 style="color:{selected === id ? 'white' : 'gray'};"/>
 			<p slot="text">{text}</p>
 		</ModalBtn>

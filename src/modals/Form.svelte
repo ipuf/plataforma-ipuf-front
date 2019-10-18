@@ -1,138 +1,91 @@
-<svelte:head>
-	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-</svelte:head>
-
 <script>
-	import { slide } from 'svelte/transition'
-	import { quintOut } from 'svelte/easing'
+  import { createEventDispatcher } from 'svelte'
+  import { postObj } from '../utils/helpers.js'
+  
+  import Err from './insert/Error.svelte'
+  import AddGeom from './insert/AddGeom.svelte'
+  import AddProc from './insert/AddProc.svelte'
+  // import Eiv1 from './insert/Eiv1.svelte'
+  // import Eiv2 from './insert/Eiv2.svelte'
+  // import Eiv3 from './insert/Eiv3.svelte'
+  // import Eiv4 from './insert/Eiv4.svelte'
+  // import Result from './insert/Result.svelte'
 
-	// import { db } from './utils/firebase.js'
+  import CarLogis from './etapas/eixos/CargaLogis.svelte'
+  import Cadastro from './etapas/Cadastro.svelte'
 
-    import FormTemplate from './etapas/FormTemplate'
-    import Cadastro from './etapas/Cadastro.svelte'
 
-	// import Header from './formulario/etapas/Header.svelte'
-	import Local from './formulario/etapas/Local.svelte'
-	import Passeio from './formulario/etapas/Passeio.svelte'
-	import Abrigo from './formulario/etapas/Abrigo.svelte'
-	import Midias from './formulario/etapas/Midias.svelte'
-	import Result from './formulario/etapas/Result.svelte'
+  import Pedestres from './etapas/eixos/Pedestres.svelte'
+  import Ciclos from './etapas/eixos/Ciclos.svelte'
+  import Onibus from './etapas/eixos/Onibus.svelte'
+  import Velocidade from './etapas/eixos/Velocidade.svelte'
+  import IndMoto from './etapas/eixos/IndividualMotorizado.svelte'
+  import CirVia from './etapas/eixos/CirculacaoViaria.svelte'
+  import CarLog from './etapas/eixos/CargaLogis.svelte'
+  import TaxApp from './etapas/eixos/TaxisAplicativos.svelte'
+  import ModAlt from './etapas/eixos/ModosAlternativos.svelte'
 
-	let form = {}
-	let auth = false
-	let done = false
-	let success = false
-	let uid = ''
-	let etapa = 0
-	let titulos = ['Local','Calçada','Ponto','Propaganda']
+  export let user = true
+  export let eixo = 0
 
-	$: atual = titulos[etapa]
+  const eixos = [Pedestres, Ciclos, Onibus, Velocidade, IndMoto, 
+                 CirVia, CarLog, TaxApp, ModAlt]
 
-	function backPage () {
-		if (etapa > 0) {
-			setTimeout(() => etapa -= 1, 300)
-		} else if (etapa === 0) {
-			setTimeout(() => auth = false, 300)
-		}
-	}
 
-	function nextPage (e) {
-		form[e.detail.etapa] = e.detail.body
-		if (!auth) {
-			uid = e.detail.body.id
-			return setTimeout(() => auth = true, 300)
-		}
-		setTimeout(() => etapa += 1, 300)
-	}
+  const dispatch = createEventDispatcher()
+  const form = []
+  const phases = [
+    Cadastro,
+    eixos[eixo]
+  ]
+  let step = 0
 
-	function sendForm (e) {
-		form[e.detail.etapa] = e.detail.body
-		console.log(form)
-		db.collection(uid).add(form)
-			.then(() => {
-				done = true
-				success = true
-			})
-			.catch((e) => {
-				done = true
-				success = false
-			})
-	}
 
-	function nextForm (e) {
-		etapa = 0
-		form = {}
-		done = false
-		return setTimeout(() => success = '', 300)
-	}
+  $: current = phases[step]
+  $: done = step === phases.length ? true : false
+  $: response = done ? sendForm(form) : false
+  
+  function backPage () {
+    step -=1
+    form.pop()
+
+    if (step < 0) {
+      form.length = 0
+      dispatch('close')
+    }
+  }
+
+  function nextPage (e) {
+    form.push({ [e.detail.key]: [e.detail.value] })
+    step += 1
+  }
+
+  function sendForm (form) {
+    // API expects JSON
+    let postObj = {}
+    for (obj in form) {
+      postObj = { ...postObj, ...obj }
+    }
+
+    return postObj('http://192.168.173.66/insert', postObj)
+  }
 </script>
 
-<style>
-	:global(html), :global(body) {
-		width: 100%;
-		height: 100%;
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-		background: #F7F7F7;
-		font-family: 'Roboto', sans-serif
-	}
-	div {
-		height: 100%;
-		width: 100%;
-	}
-</style>
-
-<!-- {#if !auth}
-	<div transition:slide="{{ easing: quintOut }}">
-		<Auth on:send={nextPage} />
+{#if !user}
+	<p>Você precisa ter autorização para isso.</p>
+{:else if user && !done}
+  <div>
+    <!-- All phases must dispatch a back and next event -->
+    <svelte:component on:back={backPage} on:next={nextPage} this={current}/>
+  </div>		
+{:else if user && done}
+	<div>
+    {#await response}
+      <p>Enviando processo...</p>
+    {:then ok}
+		  <Result result={true} on:close />
+    {:catch error}
+      <Result result={error} on:close />
+    {/await}
 	</div>
-{:else if auth && !done }
-	
-{:else if auth && done}
-	<div transition:slide="{{ easing: quintOut }}">
-		<Result {success} on:click={nextForm} />
-	</div>
-{/if} -->
-
-
-<!-- <Header {atual} {etapa}/>
-{#if etapa === 0}
-    <div transition:slide="{{ easing: quintOut }}">
-        <Local on:send={nextPage} on:back={backPage} />
-    </div>		
-{:else if etapa === 1}
-    <div transition:slide="{{ easing: quintOut }}">
-        <Passeio on:send={nextPage} on:back={backPage} />
-    </div>
-{:else if etapa === 2}
-    <div transition:slide="{{ easing: quintOut }}">
-        <Abrigo on:send={nextPage} on:back={backPage} />
-    </div>
-{:else if etapa === 3}
-    <div transition:slide="{{ easing: quintOut }}">
-        <Midias on:send={sendForm} on:back={backPage} />
-    </div>
-{/if}
- -->
-
-
-
-
-{#if etapa === 0}
-    <div transition:slide="{{ easing: quintOut }}">
-        <Cadastro on:send={nextPage} on:back={backPage} />
-    </div>		
-{:else if etapa === 1}
-    <div transition:slide="{{ easing: quintOut }}">
-        <FormTemplate on:send={nextPage} on:back={backPage} />
-    </div>
-{:else if etapa === 2}
-    <div transition:slide="{{ easing: quintOut }}">
-        <Abrigo on:send={nextPage} on:back={backPage} />
-    </div>
-{:else if etapa === 3}
-    <div transition:slide="{{ easing: quintOut }}">
-        <Midias on:send={sendForm} on:back={backPage} />
-    </div>
 {/if}
