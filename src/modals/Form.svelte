@@ -26,7 +26,7 @@
   import ModAlt from './etapas/eixos/ModosAlternativos.svelte'
 
   export let user = true
-  export let eixo = 0
+  export let eixo = 5
 
   const eixos = [Pedestres, Ciclos, Onibus, Velocidade, IndMoto, 
                  CirVia, CarLog, TaxApp, ModAlt]
@@ -39,7 +39,7 @@
     eixos[eixo]
   ]
   let step = 0
-
+  console.log(eixo)
 
   $: current = phases[step]
   $: done = step === phases.length ? true : false

@@ -6,6 +6,8 @@ export const features = writable({})
 
 export const modal = writable(false)
 
+export const mode = writable(false)
+
 export const editMode = writable(false)
 
 export const user = writable('')
