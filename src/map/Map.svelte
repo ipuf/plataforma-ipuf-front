@@ -9,7 +9,6 @@
   export let zoom
 
   let container
-  let latlong
 
   onMount(() => {
     const link = loadStyles('https://unpkg.com/leaflet@1.5.1/dist/leaflet.css')
@@ -29,11 +28,6 @@
         subdomains: 'abcd',
         maxZoom: 19
       }).addTo($map)
-
-      /* const baseMaps = {'Carto Positron': cartoDB, 'ESRI Satellite': esriWorldImagery} */
-
-      /* L.control.layers(baseMaps).addTo($map) */
-      /* L.control.zoom({ position: 'topright' }).addTo($map) */
     }
 
     return () => {
