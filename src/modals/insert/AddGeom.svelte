@@ -8,7 +8,7 @@
 
   let coords = []
 
-$: formObj = {
+  $: formObj = {
     key: 'coords',
     value: coords
   }
