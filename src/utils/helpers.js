@@ -44,4 +44,18 @@ async function postObj (url, obj) {
   }
 }
 
-export { loadStyles, getPopupContent, makePtFeature, postObj }
+async function getFeatures (url) {
+  try {
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error('Erro na conexão')
+    }
+    const features = await response.json()
+    return features
+  } catch (e) {
+    console.error(e)
+    throw new Error('Erro na obtenção de features')
+  }
+}
+
+export { loadStyles, getPopupContent, makePtFeature, postObj, getFeatures }

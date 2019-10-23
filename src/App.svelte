@@ -12,7 +12,6 @@
 	
 	import Modal from './modals/Modal.svelte'
 	import User from './modals/User.svelte'
-	import Test from './modals/Test.svelte'
 	import Insert from './modals/Insert.svelte'
 	import Edit from './modals/Edit.svelte'
 	import Table from './modals/Table.svelte'
@@ -20,7 +19,7 @@
 	import Icon from 'svelte-awesome'
 	import { cog, user, plus, edit, table } from 'svelte-awesome/icons'
 
-	import { mode } from './utils/stores.js'
+	import { mode, marker } from './utils/stores.js'
 
 	let expanded = false
 	let modal = false
@@ -28,11 +27,25 @@
 
 	const content = [
 		{ id: 'user', icon: user, component: User, text: "Usuário" },
-		{ id: 'test', icon: cog, component: Test, text: "Teste inserção" },
 		{ id: 'plus', icon: plus,  component: Insert , text: "Inserir processo" },
 		{ id: 'edit', icon: edit,  component: Edit, text: "Editar processo" },
 		{ id: 'table', icon: table,  component: Table, text: "Visualizar tabela" },
 	]
+
+	function changeModal (newSelection, newModal) {
+		[ selected, modal ] = [ newSelection, newModal ]
+		if (newSelection === false) {
+      if ($marker) $marker.remove()
+      $marker = false
+		}
+	}
+
+	function exitMode (e) {
+		console.log(e.key)
+		if (e.key === "Escape") {
+			$mode = false
+		}
+	}
 </script>
 
 <style>
@@ -49,23 +62,27 @@
 	}
 </style>
 
+<svelte:body on:keypress={(e) => exitMode(e)}/>
+
 {#if modal && !$mode}
-	<Modal on:click={() => [selected, modal] = [false, false]}>
-		<svelte:component on:close={() => [selected, modal] = [false, false]} this={modal}/>
+	<Modal on:click={() => changeModal(false, false)}>
+		<svelte:component this={modal}/>
 	</Modal>
 {:else if $mode === 'draw'}
 	<Draw/>
 {/if}
 
-<Sidenav {expanded} on:click={() => expanded = !expanded}>
-	{#each content as { id, icon, component, text }}
-		<ModalBtn {expanded} {selected} {id} on:click={() => [selected, modal] = [id, component]}>
-			<Icon data={icon} scale=2 style="color:{selected === id ? 'white' : 'gray'};"/>
-			<p slot="text">{text}</p>
-		</ModalBtn>
-	{/each}
-</Sidenav>
+{#if !$mode}
+	<Sidenav {expanded} on:click={() => expanded = !expanded}>
+		{#each content as { id, icon, component, text }}
+			<ModalBtn {expanded} {selected} {id} on:click={() => changeModal(id, component)}>
+				<Icon data={icon} scale=2 style="color:{selected === id ? 'white' : 'gray'};"/>
+				<p slot="text">{text}</p>
+			</ModalBtn>
+		{/each}
+	</Sidenav>
+{/if}
 
 <Map lat={-27.59} lon={-48.54} zoom={12}>
-  <Layers/>
+	<Layers/>
 </Map>

@@ -1,12 +1,19 @@
 import { writable, derived } from 'svelte/store'
 
-export const map = writable('')
+const map = writable('')
 
-export const features = writable({})
+const features = writable({})
 
-export const mode = writable(false)
+const mode = writable(false)
 
-export const user = writable('')
+const marker = writable(false)
+
+const coords = derived(
+  marker,
+  $marker => $marker ? [$marker.getLatLng().lng, $marker.getLatLng().lat]  : []
+)
+
+const user = writable('')
 
 export const eivs = writable({
   categoria: ['', 'string'],
@@ -34,8 +41,4 @@ export const eivs = writable({
   data_atualiz: ['', 'string']
 })
 
-export const newFeature = writable('')
-
-export const newCoords = derived(newFeature,
-  $newFeature => $newFeature ? [$newFeature.getLatLng().lat.toPrecision(8), $newFeature.getLatLng().lng.toPrecision(8)] : ''
-)
+export { map, features, mode, marker, coords, user }

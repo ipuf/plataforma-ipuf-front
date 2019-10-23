@@ -15,7 +15,8 @@
 
     link.onload = () => {
       $map = L.map(container, {
-        zoomControl: false
+        zoomControl: false,
+        doubleClickZoom: false
       })
       $map.setView([lat, lon], zoom)
 

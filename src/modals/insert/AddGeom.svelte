@@ -1,22 +1,33 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import Icon from 'svelte-awesome'
-  import { mapMarker } from 'svelte-awesome/icons'
-  import { mode } from '../../utils/stores.js'
-
+  import { mode, coords } from '../../utils/stores.js'
+  
   const dispatch = createEventDispatcher()
-
-  let coords = []
-
+  
   $: formObj = {
     key: 'coords',
-    value: coords
+    value: $coords
   }
 </script>
 
-<button type="button" on:click={() => $mode = 'draw'}>Selecionar local</button>
+<style>
+  .buttons {
+    display: flex;
+  }
+  .buttons button {
+    flex: 1;
+  }
+</style>
+
+{#if $coords.length > 0}
+  <button type="button" on:click={() => $mode = 'draw'}>Mudar local</button>
+{:else}
+  <button type="button" on:click={() => $mode = 'draw'}>Selecionar local</button>
+{/if}
 
 <div class="buttons">
-  <button class="back" type="button" on:click={() => dispatch('back')}><span>Voltar </span></button>
-	<button class="next" type="button" on:click={() => dispatch('next', formObj)}><span>Próximo </span></button>
+  <button type="button" on:click={() => dispatch('back')}>Voltar</button>
+  {#if $coords.length > 0}
+	  <button type="button" on:click={() => dispatch('next', formObj)}>Próximo</button>
+  {/if}
 </div>

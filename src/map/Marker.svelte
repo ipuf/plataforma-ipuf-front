@@ -5,24 +5,13 @@
   import { map } from '../utils/stores.js'
 
   export let feature
-  const type = feature.geometry.type
-  const coords = feature.geometry.coordinates
-
-  let geom
-  let popup
-  let content = false
+  export let hasPopup = true
   
-  switch (type) {
-    case 'Point':
-      const [lon, lat] = [coords[0], coords[1]]
-      geom = L.marker([lon, lat])
-      break
-    
-    case 'Polygon':
-      const lnglats = coords[0]
-      geom = L.polygon(lnglats)
-      break
-  } 
+  const [ lng, lat ] = [ feature.geometry.coordinates[0], feature.geometry.coordinates[1] ]
+  const geom = L.marker([ lng, lat ])
+
+  let content = false 
+  let popup
   
   onMount(() => {
     geom.addTo($map)
@@ -45,12 +34,14 @@
   }
 </style>
 
-<div bind:this={popup}>
-  {#if geom && content}
-    <table transition:fade="{{ duration: 200 }}">
-      {#each Object.keys(feature.properties) as key}
-        <tr><th scope="row">{key}</th><td><p>{feature.properties[key]}</p></td></tr>
-      {/each}
-    </table>
-  {/if}
-</div>
+{#if hasPopup}
+  <div bind:this={popup}>
+    {#if geom && content}
+      <table transition:fade="{{ duration: 200 }}">
+        {#each Object.keys(feature.properties) as key}
+          <tr><th scope="row">{key}</th><td><p>{feature.properties[key]}</p></td></tr>
+        {/each}
+      </table>
+    {/if}
+  </div>
+{/if}
