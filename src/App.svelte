@@ -1,5 +1,5 @@
 <svelte:head>
-	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:500|Roboto&display=swap" rel="stylesheet">
 </svelte:head>
 
 <script>
@@ -34,14 +34,13 @@
 
 	function changeModal (newSelection, newModal) {
 		[ selected, modal ] = [ newSelection, newModal ]
-		if (newSelection === false) {
-      if ($marker) $marker.remove()
+		if (newSelection === false && $marker) {
+      $marker.remove()
       $marker = false
 		}
 	}
 
 	function exitMode (e) {
-		console.log(e.key)
 		if (e.key === "Escape") {
 			$mode = false
 		}
@@ -57,22 +56,20 @@
 		background-color: #f8f8f8;
 	}
 	:global(*) {
-		font-family: 'Roboto', sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		box-sizing: border-box;
 	}
 </style>
 
-<svelte:body on:keypress={(e) => exitMode(e)}/>
-
-{#if modal && !$mode}
-	<Modal on:click={() => changeModal(false, false)}>
-		<svelte:component this={modal}/>
-	</Modal>
-{:else if $mode === 'draw'}
-	<Draw/>
-{/if}
+<svelte:body on:keydown={(e) => exitMode(e)}/>
 
 {#if !$mode}
+	{#if modal}
+		<Modal on:click={() => changeModal(false, false)}>
+			<svelte:component on:close={() => changeModal(false, false)} this={modal}/>
+		</Modal>
+	{/if}
+
 	<Sidenav {expanded} on:click={() => expanded = !expanded}>
 		{#each content as { id, icon, component, text }}
 			<ModalBtn {expanded} {selected} {id} on:click={() => changeModal(id, component)}>
@@ -81,6 +78,8 @@
 			</ModalBtn>
 		{/each}
 	</Sidenav>
+{:else if $mode === 'draw'}
+	<Draw/>
 {/if}
 
 <Map lat={-27.59} lon={-48.54} zoom={12}>

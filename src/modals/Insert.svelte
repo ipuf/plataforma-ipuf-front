@@ -9,7 +9,7 @@
 
   export let user = true
 
-  const bubble = createEventDispatcher()
+  const dispatch = createEventDispatcher()
   const form = []
   let step = 0
 
@@ -22,7 +22,7 @@
     
     if (step < 0) {
       form.length = 0
-      bubble('close')
+      dispatch('close')
     }
   }
 
@@ -34,12 +34,12 @@
 
   function sendForm (form) {
     // API expects JSON
-    let postObj = {}
-    for (obj in form) {
-      postObj = { ...postObj, ...obj }
+    let sendObj = {}
+    for (const obj of form) {
+      sendObj = { ...sendObj, ...obj }
     }
-
-    return postObj('http://192.168.173.66/insert', postObj)
+    console.log(sendObj)
+    return postObj('http://192.168.173.66/insert', sendObj)
   }
 </script>
 

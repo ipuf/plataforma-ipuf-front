@@ -10,7 +10,7 @@ const marker = writable(false)
 
 const coords = derived(
   marker,
-  $marker => $marker ? [$marker.getLatLng().lng, $marker.getLatLng().lat]  : []
+  $marker => $marker ? [$marker.getLatLng().lng, $marker.getLatLng().lat] : []
 )
 
 const user = writable('')

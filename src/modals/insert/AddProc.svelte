@@ -17,7 +17,23 @@
 	}
 </script>
 
-<h1>content</h1>
+<label>Identificação</label>
+<input type="text" name="firstname">
+
+<label>Classe</label>
+<input type="text" name="firstname">
+
+<label>Subclasse</label>
+<input type="text" name="firstname">
+
+<label>Status</label>
+<input type="text" name="firstname">
+
+<label>Inscrição Imobiliária</label>
+<input type="text" name="firstname">
+
+<label>Distrito</label>
+<input type="text" name="firstname">
 
 <div class="buttons">
   <button class="back" type="button" on:click={back}><span>Voltar </span></button>

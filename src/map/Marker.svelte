@@ -5,7 +5,6 @@
   import { map } from '../utils/stores.js'
 
   export let feature
-  export let hasPopup = true
   
   const [ lng, lat ] = [ feature.geometry.coordinates[0], feature.geometry.coordinates[1] ]
   const geom = L.marker([ lng, lat ])
@@ -34,14 +33,12 @@
   }
 </style>
 
-{#if hasPopup}
-  <div bind:this={popup}>
-    {#if geom && content}
-      <table transition:fade="{{ duration: 200 }}">
-        {#each Object.keys(feature.properties) as key}
-          <tr><th scope="row">{key}</th><td><p>{feature.properties[key]}</p></td></tr>
-        {/each}
-      </table>
-    {/if}
-  </div>
-{/if}
+<div bind:this={popup}>
+  {#if content}
+    <table transition:fade="{{ duration: 200 }}">
+      {#each Object.entries(feature.properties) as [key, value]}
+        <tr><th scope="row">{key}</th><td><p>{value}</p></td></tr>
+      {/each}
+    </table>
+  {/if}
+</div>

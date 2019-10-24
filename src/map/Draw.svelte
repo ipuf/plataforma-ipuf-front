@@ -11,7 +11,7 @@
     } else {
       $marker.setLatLng(e.latlng)
     }
-    $mode = false
+    setTimeout(() => $mode = false, 200)
   }
 
   onMount(() => {
@@ -23,7 +23,7 @@
 
     return () => {
       $map.off('click')
-      document.head.removeChild(cursor)
+      cursor.parentNode.removeChild(cursor)
     }
   })
 </script>
