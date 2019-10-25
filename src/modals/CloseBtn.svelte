@@ -14,5 +14,5 @@
 </style>
 
 <span on:click>
-  <Icon data={times} scale=1.25 style="color:gray;"/>
+  <Icon data={times} scale=1.25 style="color:rgba(90,91,117,.6);"/>
 </span>

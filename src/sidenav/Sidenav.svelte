@@ -20,6 +20,7 @@
 		width: 70px;
 		overflow: hidden;
 		transition: all 0.3s ease-in-out;
+		border-radius: 0 .5rem .5rem 0;
 	}
 	.expanded {
 		width: 225px;
@@ -30,9 +31,9 @@
 <aside class:expanded>
   <Toggle on:click>
     {#if !expanded}
-      <Icon data={chevronRight} scale=2 style="color:gray;"/>
+      <Icon data={chevronRight} scale=2 style="color:rgba(90,91,117,.8);"/>
     {:else}
-      <Icon data={chevronLeft} scale=2 style="color:gray;"/>
+      <Icon data={chevronLeft} scale=2 style="color:rgba(90,91,117,.8);"/>
     {/if}
   </Toggle>
   <slot></slot>

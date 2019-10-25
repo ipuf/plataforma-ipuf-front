@@ -19,15 +19,16 @@
 		justify-content: center;
 		left: 50%;
 		top: 50%;
-		min-width: 10vw;
-		min-height: 25vh;
+		min-width: 350px;
+		min-height: 250px;
+		max-height: 90vh;
 		overflow: auto;
 		transform: translate(-50%,-50%);
 		padding: 35px;
-		border-radius: 3px;
+		border-radius: .5rem;
 		background: white;
     z-index: 700;
-		box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
+		box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.4);
 	}
 </style>
 

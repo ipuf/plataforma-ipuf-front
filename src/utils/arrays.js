@@ -1,4 +1,4 @@
-export const inputArrays = {
+export const arrays = {
   distritos: [
     { value: 'BAR', text: 'Barra da Lagoa' },
     { value: 'CBJ', text: 'Cachoeira do Bom Jesus' },
@@ -14,7 +14,7 @@ export const inputArrays = {
     { value: 'SCO', text: 'Sede Continental' },
     { value: 'SIN', text: 'Sede Insular' }
   ],
-  categorias: [
+  classes: [
     { value: 'EIV', text: 'Estudo de Impacto de Vizinhança' },
     { value: 'ESI', text: 'Estudo Simplificado de Impacto' },
     { value: 'EEL', text: 'Estudo Específico de Localização' },
@@ -40,8 +40,3 @@ export const inputArrays = {
     { value: 'concluido', text: 'Concluído' }
   ]
 }
-
-export const allowedUids = [
-  'a5qS2Oo9SlWDMi3LvZtFjAbsZwg1',
-  'j8FuZZb5YARNLyZjPCjPn8VldRY2'
-]

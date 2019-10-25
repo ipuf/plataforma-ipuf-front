@@ -1,5 +1,5 @@
 <svelte:head>
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:500|Roboto&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,600|Montserrat:500,600|Roboto&display=swap" rel="stylesheet">
 </svelte:head>
 
 <script>
@@ -54,10 +54,33 @@
 		margin: 0;
 		padding: 0;
 		background-color: #f8f8f8;
+		line-height: 1.15;
+		font-size: 13px;
+  	transform-origin: 0 0;
 	}
 	:global(*) {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'Raleway', sans-serif;
+		font-weight: 600;
 		box-sizing: border-box;
+		text-rendering: optimizeLegibility;
+	}
+	:global(button) {
+		border: 1 px solid transparent;
+		border-radius: .5rem;
+		line-height: 1.65;
+		padding: 0.75rem 1.55rem;
+		text-align: center;
+		text-transform: uppercase;
+		transition: all .3s ease;
+		user-select: none;
+		vertical-align: middle;
+		white-space: nowrap;
+	}
+	:global(button):not(:disabled) {
+		cursor: pointer;
+	}
+	p {
+		font-weight: 600;
 	}
 </style>
 
@@ -73,8 +96,8 @@
 	<Sidenav {expanded} on:click={() => expanded = !expanded}>
 		{#each content as { id, icon, component, text }}
 			<ModalBtn {expanded} {selected} {id} on:click={() => changeModal(id, component)}>
-				<Icon data={icon} scale=2 style="color:{selected === id ? 'white' : 'gray'};"/>
-				<p slot="text">{text}</p>
+				<Icon data={icon} scale=2 style="color:{selected === id ? 'white' : 'rgba(90,91,117,.8)'};"/>
+				<p style="color:{selected === id ? 'white' : 'rgba(90,91,117,.8)'};" slot="text">{text}</p>
 			</ModalBtn>
 		{/each}
 	</Sidenav>

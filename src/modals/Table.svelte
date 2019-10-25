@@ -18,49 +18,43 @@
 
 <style>
   table {
-    margin: auto;
+    display: block;
+    width: 75vw;
+    height: 100%;
+    margin: 10px 0;
     border-collapse: collapse;
     border-spacing: 0;
     empty-cells: show;
-    border: 1px solid #cbcbcb;
+    overflow: auto;
   }
-  th, td#corner {
-    background: #e0e0e0;
-    color: #000;
-    text-align: left;
-    vertical-align: bottom;
+  div {
+    max-height: 75px;
+    overflow: auto;
   }
   td, th {
-    border-left: 1px solid #cbcbcb;
-    border-width: 0 0 0 1px;
-    font-size: inherit;
-    margin: 0;
+    border: 1px solid rgba(90,91,117,.4);
     overflow: auto;
-    padding: 0.5em 1em;
+    padding: 12px 15px;
   }
-  table:nth-child(2) {
-    height: 15px;
+  th, td#corner {
+    background: rgba(90,91,117,.1);
+    color: rgba(90,91,117,.8);
   }
-  tr:nth-child(even) td {
-    background: #f2f2f2;
-  }
-  tr:hover, tr:hover td{
-    background: #E2E2E2;
-  }
+  
 </style>
 
 <table>
   <tr>
     <td id="corner"></td>
     {#each headers as header}
-      <th scope="col">{header}</th>
+      <th scope="col"><div>{header}</div></th>
     {/each}
   </tr>
   {#each dataset as data, i}
     <tr>
       <th scope="row">{i + 1}</th>
       {#each data as cell}
-        <td>{cell}</td>
+        <td><div>{cell}</div></td>
       {/each}
     </tr>
   {/each} 

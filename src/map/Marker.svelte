@@ -8,7 +8,7 @@
   
   const [ lng, lat ] = [ feature.geometry.coordinates[0], feature.geometry.coordinates[1] ]
   const geom = L.marker([ lng, lat ])
-
+  
   let content = false 
   let popup
   
@@ -31,13 +31,16 @@
     width: 100%;
     height: 150px;
   }
+  th, td {
+    color: rgba(90,91,117,.8);
+  }
 </style>
 
 <div bind:this={popup}>
   {#if content}
     <table transition:fade="{{ duration: 200 }}">
       {#each Object.entries(feature.properties) as [key, value]}
-        <tr><th scope="row">{key}</th><td><p>{value}</p></td></tr>
+        <tr><th scope="row">{key}</th><td>{value}</td></tr>
       {/each}
     </table>
   {/if}

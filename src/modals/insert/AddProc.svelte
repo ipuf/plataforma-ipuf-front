@@ -1,41 +1,161 @@
 <script>
   import { createEventDispatcher } from 'svelte'
+  import Buttons from './Buttons.svelte'
   import { coords, mode } from '../../utils/stores.js'
- 
+  import { arrays } from '../../utils/arrays.js'
+
+  export let done = false
+
   const dispatch = createEventDispatcher()
-  
-  $: formObj = {
-    key: 'bla',
-    value: 'bleh'
+
+  let id_proc
+  let classes = arrays.classes
+  let pickClass
+  let status 
+  let insc_imob
+  let distritos = arrays.distritos
+  let pickDist
+
+  function handleSubmit () {
+    done = true
   }
 
-  function next () {
-		dispatch('next', formObj)
+  $: formObj = {
+    key: 'proc',
+    value: {
+      id_proc: id_proc,
+      classe: pickClass,
+      status: status,
+      insc_imob: insc_imob,
+      distrito: pickDist
+    }
   }
-  function back () {
-		dispatch('back')
-	}
 </script>
 
-<label>Identificação</label>
-<input type="text" name="firstname">
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 2px;
+  }
+  form * {
+    width: 100%;
+  }
+  .label-float {
+    position: relative;
+    padding-top: 13px;
+    margin-bottom: 10px;
+  }
+  input, select {
+    border: 0;
+    padding: 0;
+    border-bottom: 1px solid rgba(90,91,117,.4);
+    min-width: 180px;
+    font-size: 1.2rem;
+    color: rgba(90,91,117,.8);
+    transition: all .3s ease-out;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+  input:focus, select:focus {
+    border-bottom: 1px solid rgb(23,122,190);
+  }
+  input::placeholder {
+    color: transparent;
+  }
+  label {
+    pointer-events: none;
+    position: absolute;
+    color: rgba(90, 91, 117, .8);
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    top: 0;
+    left: 0;
+    margin-top: 15px;
+    transition: all .3s ease-out;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+  }
+  input:focus:required:invalid {
+    border-bottom: 1px solid darkred;
+  }
+  input:required:invalid+label:after,
+  select:required:invalid+label:after {
+    content: '*';
+  }
+  input:focus+label,
+  input:not(:placeholder-shown)+label,
+  select:focus+label,
+  select:not(:invalid)+label {
+    font-size: 10px;
+    margin-top: 0;
+    color: rgb(23,122,190);
+  }
+  option[value=""][disabled] {
+    display: none;
+  }
+</style>
 
-<label>Classe</label>
-<input type="text" name="firstname">
+<form on:submit|preventDefault={handleSubmit}>
+  <div class="label-float">
+    <input 
+      placeholder="" 
+      type="text" 
+      required
+      bind:value={id_proc}
+      >
+    <label>Identificação</label>
+  </div>
 
-<label>Subclasse</label>
-<input type="text" name="firstname">
+  <div class="label-float">
+    <select bind:value={pickClass} required>
+      <option value="" disabled selected></option>
+      {#each classes as { value, text }}
+        <option {value}>{text}</option>
+      {/each}
+    </select>
+    <label>Classe</label>
+  </div>
 
-<label>Status</label>
-<input type="text" name="firstname">
+  <!-- <div class="label-float">
+    <select>
+        <option></option>
+    </select>
+    <label>Subclasse</label>
+  </div> -->
 
-<label>Inscrição Imobiliária</label>
-<input type="text" name="firstname">
+  <div class="label-float">
+    <input 
+      placeholder="" 
+      type="text" 
+      required
+      bind:value={status}
+      >
+    <label>Status</label>
+  </div>
 
-<label>Distrito</label>
-<input type="text" name="firstname">
+  <div class="label-float">
+    <input 
+      placeholder="" 
+      type="text" 
+      required
+      bind:value={insc_imob}
+      >
+    <label>Inscrição Imobiliária</label>
+  </div>
 
-<div class="buttons">
-  <button class="back" type="button" on:click={back}><span>Voltar </span></button>
-	<button class="next" type="button" on:click={next}><span>Próximo </span></button>
-</div>
+  <div class="label-float">  
+    <select bind:value={pickDist} required>
+      <option value="" disabled selected></option>
+      {#each distritos as { value, text }}
+        <option {value}>{text}</option>
+      {/each}
+    </select>
+    <label>Distrito</label>
+  </div>
+</form>
+
+<Buttons {done} on:next={()=> dispatch('next', formObj)} on:back/>

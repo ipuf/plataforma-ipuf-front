@@ -6,16 +6,16 @@
 
 <style>
   .btn {
-    margin: 0;
-    border: none;
-    padding: 15px 10px;
-    height: 100px;
+    margin: 0px;
+    padding: 10px;
+    height: 75px;
     width: 100%;
     align-self: flex-start;
     display: flex;
     justify-content: center;
     align-items: center;
     background: none;
+    border: none;
   }
   .icon {
     width: 35px;

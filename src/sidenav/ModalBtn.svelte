@@ -10,16 +10,17 @@
 
 <style>
   .btn {
-    margin: 0;
-    border: none;
-    padding: 15px 10px;
-    height: 100px;
+    margin: 0px;
+    padding: 10px;
+    height: 75px;
     width: 100%;
     align-self: flex-start;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: none;
+    background: transparent;
+    border-radius: 0;
+    border: none;
   }
   .icon {
     width: 35px;
@@ -32,7 +33,8 @@
     margin-left: 10px;
   }
   .active {
-    background-color: darkblue;
+    background: rgb(23,122,190);
+		background: linear-gradient(90deg, rgba(23,122,190,1) 0%, rgba(0,194,255,1) 100%);
   }
   .active * {
     color: white;

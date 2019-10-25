@@ -1,70 +1,65 @@
 <script>
 	import { createEventDispatcher } from 'svelte'
 
+	export let done = false
+
 	const dispatch = createEventDispatcher()
 </script>
 
 <style>
-  .buttons {
+  .nav-btns {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    flex-flow: row wrap;
+    margin-top: 25px;
     justify-content: space-between;
-		align-items: center;
-    align-content: flex-end;
-		width: 100%;
-		margin-top: 15px;
-		margin-bottom: 10px;
   }
+	.nav-btns button {
+		min-width: 100px;
+		width: 47.5%;
+		margin: 0;
+	}
+	.next:disabled {
+		opacity: 0.35;
+	}
 	.next {
-		flex: 1;
-		font-size: 1em;
-		border-radius: 2px;
-		background-color: #44a64a;
 		border: none;
-		color: #FFFFFF;
-		text-align: center;
-		padding: 17.5px;
-		transition: all 0.5s;
-		cursor: pointer;
-	}
-	.next span {
-		cursor: pointer;
-		display: inline-block;
-		position: relative;
-		transition: 0.5s;
-	}
-	.next span:after {
-		content: "\003e";
-		position: absolute;
-		opacity: 0;
-		top: 0;
-		right: -20px;
-		transition: 0.5s;
-	}
-	.next:hover span {
-		padding-right: 25px;
-	}
-	.next:hover span:after {
-		opacity: 1;
-		right: 0;
+    color: #fff;
+		background: rgb(23,122,190);
+		background: linear-gradient(90deg, rgba(23,122,190,1) 0%, rgba(0,194,255,1) 100%);
+		margin-left: 2px;
 	}
 	.back {
-		flex: 1;
-		font-size: 1em;
-		border-radius: 2px;
-		background-color: #44a64a;
-		border: none;
-		color: #FFFFFF;
-		text-align: center;
-		padding: 17.5px;
-		cursor: pointer;
-		margin-right: 10px;
+    background-color: transparent;
+    background-image: none;
+    border-color: rgb(23,122,190);
+    color: rgb(23,122,190);
+		margin-right: 2px;
 	}
 </style>
 
-<div class="buttons">
-  <button class="back" type="button" on:click={() => dispatch('back')}><span>Voltar </span></button>
-	<button class="next" type="button" on:click={() => dispatch('next')}><span>Próximo </span></button>
+<div class="nav-btns">
+  <button 
+		class="back" 
+		type="button" 
+		on:click={() => dispatch('back')}
+		>
+		Voltar
+	</button>
+  {#if !done}
+	  <button 
+			class="next" 
+			type="button" 
+			on:click={() => dispatch('next')} 
+			disabled
+			>
+			Próximo
+		</button>
+	{:else}
+		<button 
+			class="next" 
+			type="button" 
+			on:click={() => dispatch('next')}
+			>
+			Próximo
+		</button>
+  {/if}
 </div>
