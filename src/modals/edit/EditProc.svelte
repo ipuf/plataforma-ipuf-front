@@ -1,6 +1,5 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import Buttons from './Buttons.svelte'
   import { coords, mode } from '../../utils/stores.js'
   import { arrays } from '../../utils/arrays.js'
 
@@ -159,4 +158,3 @@
   </div>
 </form>
 
-<Buttons {done} on:next={()=> dispatch('next', formObj)} on:back/>

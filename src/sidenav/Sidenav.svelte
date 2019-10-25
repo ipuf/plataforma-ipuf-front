@@ -1,8 +1,4 @@
 <script>
-  import Icon from 'svelte-awesome'
-  import { chevronRight, chevronLeft } from 'svelte-awesome/icons'
-  import Toggle from './Toggle.svelte'
-
   export let expanded
 </script>
 
@@ -18,7 +14,9 @@
 		z-index: 600;
 		background: #fff;
 		width: 70px;
-		overflow: hidden;
+		max-height: 100vh;
+		overflow-x: hidden;
+		overflow-y: auto;
 		transition: all 0.3s ease-in-out;
 		border-radius: 0 .5rem .5rem 0;
 	}
@@ -26,15 +24,15 @@
 		width: 225px;
     transition: all 0.3s ease-in-out;
 	}
+	@media only screen and (max-width: 600px) {
+		.expanded {
+			width: 100vw;
+			transition: all 0.3s ease-in-out;
+			border-radius: 0;
+		}
+	}
 </style>
 
 <aside class:expanded>
-  <Toggle on:click>
-    {#if !expanded}
-      <Icon data={chevronRight} scale=2 style="color:rgba(90,91,117,.8);"/>
-    {:else}
-      <Icon data={chevronLeft} scale=2 style="color:rgba(90,91,117,.8);"/>
-    {/if}
-  </Toggle>
   <slot></slot>
 </aside>

@@ -7,15 +7,14 @@
 
 <style>
   .parent {
-    display: grid;
-    justify-items: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
-    grid-template-columns: 1fr 2fr;
   }
   h3, p {
     text-align: center;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin: 5px;
   }
   h3 {
     font-size: 0.9rem;

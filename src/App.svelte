@@ -1,5 +1,5 @@
 <svelte:head>
-	<link href="https://fonts.googleapis.com/css?family=Raleway:400,600|Montserrat:500,600|Roboto&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,800|Montserrat:500,600|Roboto&display=swap" rel="stylesheet">
 </svelte:head>
 
 <script>
@@ -9,15 +9,27 @@
 
 	import Sidenav from './sidenav/Sidenav.svelte'
 	import ModalBtn from './sidenav/ModalBtn.svelte'
+	import ToggleBtn from './sidenav/ToggleBtn.svelte'
 	
 	import Modal from './modals/Modal.svelte'
+	import CloseBtn from './modals/CloseBtn.svelte'
 	import User from './modals/User.svelte'
 	import Insert from './modals/Insert.svelte'
 	import Edit from './modals/Edit.svelte'
 	import Table from './modals/Table.svelte'
 
 	import Icon from 'svelte-awesome'
-	import { cog, user, plus, edit, table } from 'svelte-awesome/icons'
+	import { 
+		cog, 
+		user, 
+		plus, 
+		edit, 
+		table, 
+		chevronRight, 
+		chevronLeft 
+	} from 'svelte-awesome/icons'
+	
+	import { fade } from 'svelte/transition'
 
 	import { mode, marker } from './utils/stores.js'
 
@@ -54,7 +66,6 @@
 		margin: 0;
 		padding: 0;
 		background-color: #f8f8f8;
-		line-height: 1.15;
 		font-size: 13px;
   	transform-origin: 0 0;
 	}
@@ -90,14 +101,29 @@
 	{#if modal}
 		<Modal on:click={() => changeModal(false, false)}>
 			<svelte:component on:close={() => changeModal(false, false)} this={modal}/>
+			<CloseBtn on:click={() => changeModal(false, false)}/>
 		</Modal>
 	{/if}
 
-	<Sidenav {expanded} on:click={() => expanded = !expanded}>
+	<Sidenav {expanded}>
+		<ToggleBtn on:click={() => expanded = !expanded}>
+			{#if !expanded}
+				<Icon data={chevronRight} scale=2 style="color:rgba(90,91,117,.8);"/>
+			{:else}
+				<Icon data={chevronLeft} scale=2 style="color:rgba(90,91,117,.8);"/>
+			{/if}
+		</ToggleBtn>
 		{#each content as { id, icon, component, text }}
 			<ModalBtn {expanded} {selected} {id} on:click={() => changeModal(id, component)}>
 				<Icon data={icon} scale=2 style="color:{selected === id ? 'white' : 'rgba(90,91,117,.8)'};"/>
-				<p style="color:{selected === id ? 'white' : 'rgba(90,91,117,.8)'};" slot="text">{text}</p>
+				<p 
+					in:fade={{ delay: 200, duration: 200 }}
+					out:fade={{ duration: 200 }}
+					style="color:{selected === id ? 'white' : 'rgba(90,91,117,.8)'};" 
+					slot="text"
+					>
+					{text}
+				</p>
 			</ModalBtn>
 		{/each}
 	</Sidenav>

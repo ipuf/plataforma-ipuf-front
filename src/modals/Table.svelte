@@ -27,34 +27,40 @@
     empty-cells: show;
     overflow: auto;
   }
-  div {
-    max-height: 75px;
-    overflow: auto;
+  th, #corner {
+    background: rgba(90,91,117,.1);
+    color: rgba(90,91,117,.8);
   }
   td, th {
     border: 1px solid rgba(90,91,117,.4);
     overflow: auto;
     padding: 12px 15px;
   }
-  th, td#corner {
-    background: rgba(90,91,117,.1);
-    color: rgba(90,91,117,.8);
+  div {
+    max-height: 75px;
+    overflow: auto;
   }
-  
+  .headers, .rows {
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .cells {
+    font-weight: 400;
+  }
 </style>
 
 <table>
   <tr>
     <td id="corner"></td>
     {#each headers as header}
-      <th scope="col"><div>{header}</div></th>
+      <th scope="col"><div class="headers">{header}</div></th>
     {/each}
   </tr>
   {#each dataset as data, i}
     <tr>
-      <th scope="row">{i + 1}</th>
+      <th scope="row"><div class="rows">{i + 1}</div></th>
       {#each data as cell}
-        <td><div>{cell}</div></td>
+        <td><div class="cells">{cell}</div></td>
       {/each}
     </tr>
   {/each} 

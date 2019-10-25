@@ -39,8 +39,7 @@
   p {
     text-align: center;
     font-size: 0.9rem;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin: 0 5px;
   }
 </style>
 

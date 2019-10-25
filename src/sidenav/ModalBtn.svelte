@@ -1,6 +1,4 @@
 <script>
-  import { fade } from 'svelte/transition'
-
   export let expanded
   export let selected = false
   export let id
@@ -51,7 +49,7 @@
       <slot></slot>
     </span>
     {#if expanded}
-      <span class="text" in:fade="{{delay: 300, duration: 200}}">
+      <span class="text">
         <slot name="text"></slot>
       </span>
     {/if}

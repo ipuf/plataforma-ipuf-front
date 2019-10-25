@@ -2,6 +2,7 @@
   "name": "svelte-dash",
   "version": "1.0.0",
   "devDependencies": {
+    "bestzip": "^2.1.5",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "mini-css-extract-plugin": "^0.6.0",
@@ -9,22 +10,22 @@
     "style-loader": "^0.23.1",
     "svelte": "^3.0.0",
     "svelte-loader": "2.13.3",
-    "webpack": "^4.30.0",
+    "webpack": "^4.41.2",
     "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.3.1",
-    "ws": "^7.1.2",
-    "bestzip": "^2.1.4"
+    "webpack-dev-server": "^3.9.0",
+    "ws": "^7.2.0"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack && cd public && bestzip public.zip *",
-    "dev": "webpack-dev-server --content-base public"
+    "build": "cross-env NODE_ENV=production webpack",
+    "dev": "webpack-dev-server --content-base public",
+    "zip": "bestzip bundle.zip public/*"
   },
   "dependencies": {
     "@fortawesome/free-regular-svg-icons": "^5.11.2",
     "@fortawesome/free-solid-svg-icons": "^5.10.2",
     "firebase": "^6.4.2",
     "leaflet": "^1.5.1",
-    "rxfire": "^3.7.0",
+    "rxfire": "^3.8.7",
     "rxjs": "^6.5.2",
     "svelte-awesome": "^2.2.0"
   }

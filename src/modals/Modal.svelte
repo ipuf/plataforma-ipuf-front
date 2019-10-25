@@ -1,7 +1,3 @@
-<script>
-	import CloseBtn from './CloseBtn.svelte'
-</script>
-
 <style>
 	.modal-background {
 		position: fixed;
@@ -21,6 +17,7 @@
 		top: 50%;
 		min-width: 350px;
 		min-height: 250px;
+		max-width: 90vw;
 		max-height: 90vh;
 		overflow: auto;
 		transform: translate(-50%,-50%);
@@ -32,9 +29,8 @@
 	}
 </style>
 
-<div class='modal-background'></div>
+<div class='modal-background' on:click></div>
 
 <div class='modal'>
 	<slot></slot>
-	<CloseBtn on:click/>
 </div>

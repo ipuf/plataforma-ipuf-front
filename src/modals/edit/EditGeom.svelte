@@ -1,16 +1,10 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import Buttons from './Buttons.svelte'
   import { mode, marker, coords } from '../../utils/stores.js'
   
   const dispatch = createEventDispatcher()
-  let geom = true
 
-  $: latlng = !geom ? [0, 0] : $coords ? $coords : throwError(e)
-  $: done = $coords.length > 0 || geom === false ? true : false
-  $: formObj = {
-    key: 'coords',
-    value: latlng
+  function selectMarker () {
   }
 
   function clearMarker () {
@@ -42,12 +36,10 @@
 
 <div class="geom-btns">
   {#if $coords.length > 0}
-    <button type="button" on:click={() => $mode = 'draw'}>ALTERAR GEOMETRIA</button>
+    <button type="button" on:click={() => $mode = 'draw'}>SELECIONAR GEOMETRIA</button>
   {:else}
-    <button type="button" on:click={() => $mode = 'draw'}>INSERIR GEOMETRIA</button>
+    <button type="button" on:click={() => $mode = 'draw'}>SELECIONAR OUTRA GEOMETRIA</button>
   {/if}
+  <button type="button" on:click={clearMarker}>ALTERAR GEOMETRIA</button>
   <button type="button" on:click={clearMarker}>APAGAR GEOMETRIA</button>
-  <button type="button" on:click={() => {clearMarker(); geom = false}}>SEGUIR SEM GEOMETRIA</button>
 </div>
-
-<Buttons {done} on:next={() => dispatch('next', formObj)} on:back/>
