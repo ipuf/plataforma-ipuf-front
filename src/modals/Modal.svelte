@@ -26,6 +26,7 @@
 		background: white;
     z-index: 700;
 		box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.4);
+		transition: all .3s ease;
 	}
 </style>
 

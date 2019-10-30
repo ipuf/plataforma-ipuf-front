@@ -4,8 +4,6 @@
   import { coords, mode } from '../../utils/stores.js'
   import { arrays } from '../../utils/arrays.js'
 
-  export let done = false
-
   const dispatch = createEventDispatcher()
 
   let id_proc
@@ -16,9 +14,7 @@
   let distritos = arrays.distritos
   let pickDist
 
-  function handleSubmit () {
-    done = true
-  }
+  $: done = id_proc && pickClass && status && insc_imob && pickDist ? true : false
 
   $: formObj = {
     key: 'proc',
@@ -33,13 +29,13 @@
 </script>
 
 <style>
-  form {
+  .form {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 2px;
   }
-  form * {
+  .form * {
     width: 100%;
   }
   .label-float {
@@ -50,7 +46,6 @@
   input, select {
     border: 0;
     padding: 2px 0;
-    text-transform: uppercase;
     font-size: 1.1rem;
     border-bottom: 1px solid rgba(90,91,117,.4);
     min-width: 180px;
@@ -100,7 +95,7 @@
   }
 </style>
 
-<form on:submit|preventDefault={handleSubmit}>
+<div class="form">
   <div class="label-float">
     <input 
       placeholder="" 
@@ -157,6 +152,6 @@
     </select>
     <label>Distrito</label>
   </div>
-</form>
+</div>
 
 <Buttons {done} on:next={()=> dispatch('next', formObj)} on:back/>

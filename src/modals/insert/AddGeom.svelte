@@ -38,16 +38,25 @@
     align-items: center;
     margin-top: 5px;
   }
+  p {
+    text-align: center;
+  }
 </style>
 
 <div class="geom-btns">
   {#if $coords.length > 0}
     <button type="button" on:click={() => $mode = 'draw'}>ALTERAR GEOMETRIA</button>
+    <button type="button" on:click={clearMarker}>APAGAR GEOMETRIA</button>
   {:else}
     <button type="button" on:click={() => $mode = 'draw'}>INSERIR GEOMETRIA</button>
+    <button type="button" on:click={() => {clearMarker(); geom = false}}>SEGUIR SEM GEOMETRIA</button>
   {/if}
-  <button type="button" on:click={clearMarker}>APAGAR GEOMETRIA</button>
-  <button type="button" on:click={() => {clearMarker(); geom = false}}>SEGUIR SEM GEOMETRIA</button>
 </div>
+
+{#if $coords.length > 0}
+  <p>Geometria inserida nas coordenadas: {$coords}</p>
+{:else}
+  <p>Nenhuma geometria inserida.</p>
+{/if}
 
 <Buttons {done} on:next={() => dispatch('next', formObj)} on:back/>

@@ -2,7 +2,6 @@
   import { onMount } from 'svelte'
   import L from 'leaflet'
   import { features } from '../utils/stores.js'
-  import { db } from '../utils/firebase.js'
   import Marker from './Marker.svelte'
 
   /* const dataRef = db.collection('teste')
@@ -20,7 +19,10 @@
     try {
       const response = await fetch('http://192.168.173.66/get')
       const data = await response.json()
-      for (let feature of data) features.push(feature)
+      for (let feature of data) {
+        feature.geometry.coordinates.reverse()
+        features.push(feature)
+      }
       return features
     } catch (e) {
       return console.error(e)

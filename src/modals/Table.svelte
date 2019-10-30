@@ -1,5 +1,11 @@
 <script>
+  import { slide } from 'svelte/transition'
   import { features } from '../utils/stores.js'
+
+
+  let query = ''
+  let headers
+  let dataset
 
   function getData() {
     const dataset = []
@@ -10,10 +16,24 @@
       }
       dataset.push(Object.values(feature.properties))
     }
+    console.log(dataset)
     return [headers, dataset]
   }
-  
-  $: [headers, dataset] = $features ? getData() : ''
+
+  $: if ($features) {
+    [headers, dataset] = getData()
+    if (query) {
+      // checa se string é válida como número
+      if (!isNaN(query)) {
+        // converte string p num
+        query = +query
+      }
+      //filtra rows que não contiverem o valor da query
+      dataset = dataset.filter(row => row.includes(query))
+    }
+  } else {
+    console.log('damn')
+  }
 </script>
 
 <style>
@@ -48,6 +68,8 @@
     font-weight: 400;
   }
 </style>
+
+<input bind:value={query} type="text" placeholder="Pesquise por um atributo">
 
 <table>
   <tr>

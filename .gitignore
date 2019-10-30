@@ -5,3 +5,5 @@ package-lock.json
 yarn.lock
 src/components/utils/firebase.js
 src/old/
+bundle.zip
+routes.code-workspace
