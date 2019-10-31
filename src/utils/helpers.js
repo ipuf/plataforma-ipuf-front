@@ -28,7 +28,7 @@ function makePtFeature (obj, lat, lng) {
   }
 }
 
-async function postObj (url, obj) {
+async function post (url, obj) {
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -58,4 +58,4 @@ async function getFeatures (url) {
   }
 }
 
-export { loadStyles, getPopupContent, makePtFeature, postObj, getFeatures }
+export { loadStyles, getPopupContent, makePtFeature, post, getFeatures }

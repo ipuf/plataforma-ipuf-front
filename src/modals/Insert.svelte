@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import { postObj } from '../utils/helpers.js'
+  import { post } from '../utils/helpers.js'
   
   import AddGeom from './insert/AddGeom.svelte'
 	import AddProc from './insert/AddProc.svelte'
@@ -39,7 +39,7 @@
       sendObj = { ...sendObj, ...obj }
     }
     console.log(sendObj)
-    return postObj('http://192.168.173.66/insert', sendObj)
+    return post('http://192.168.173.66/insert', sendObj)
   }
 </script>
 
