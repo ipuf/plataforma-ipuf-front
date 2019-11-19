@@ -1,8 +1,6 @@
 <script>
-    export let displayName
-    export let photoURL
-    export let email
-    export let uid
+  export let displayName;
+  export let email;
 </script>
 
 <style>
@@ -12,7 +10,8 @@
     flex-wrap: wrap;
     align-items: center;
   }
-  h3, p {
+  h3,
+  p {
     text-align: center;
     margin: 5px;
   }
@@ -24,13 +23,10 @@
   }
 </style>
 
-<h3>Olá { displayName }!</h3>
+<h3>Olá {displayName}!</h3>
 <div class="parent">
-  <img src={ photoURL } width="100" alt="user avatar">
   <section>
     <p>Seu email é:</p>
-    <p>{ email }</p>
-    <p>Seu userID é:</p>
-    <p>{ uid }</p>
+    <p>{email}</p>
   </section>
 </div>

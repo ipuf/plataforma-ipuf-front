@@ -1,23 +1,24 @@
 <script>
-  import { createEventDispatcher } from 'svelte'
-  import Buttons from './Buttons.svelte'
-  import { coords, mode } from '../../utils/stores.js'
-  import { arrays } from '../../utils/arrays.js'
+  import { createEventDispatcher } from "svelte";
+  import Buttons from "./Buttons.svelte";
+  import { coords, mode } from "../../../utils/stores.js";
+  import { arrays } from "../../../utils/arrays.js";
 
-  const dispatch = createEventDispatcher()
+  const dispatch = createEventDispatcher();
 
-  let id_proc
-  let classes = arrays.classes
-  let pickClass
-  let status 
-  let insc_imob
-  let distritos = arrays.distritos
-  let pickDist
+  let id_proc;
+  let classes = arrays.classes;
+  let pickClass;
+  let status;
+  let insc_imob;
+  let distritos = arrays.distritos;
+  let pickDist;
 
-  $: done = id_proc && pickClass && status && insc_imob && pickDist ? true : false
+  $: done =
+    id_proc && pickClass && status && insc_imob && pickDist ? true : false;
 
   $: formObj = {
-    key: 'proc',
+    key: "proc",
     value: {
       id_proc: id_proc,
       classe: pickClass,
@@ -25,7 +26,7 @@
       insc_imob: insc_imob,
       distrito: pickDist
     }
-  }
+  };
 </script>
 
 <style>
@@ -43,21 +44,23 @@
     padding-top: 13px;
     margin-bottom: 10px;
   }
-  input, select {
+  input,
+  select {
     border: 0;
     padding: 2px 0;
     font-size: 1.1rem;
-    border-bottom: 1px solid rgba(90,91,117,.4);
+    border-bottom: 1px solid rgba(90, 91, 117, 0.4);
     min-width: 180px;
-    color: rgba(90,91,117,.8);
-    transition: all .3s ease-out;
-    -webkit-transition: all .3s ease-out;
-    -moz-transition: all .3s ease-out;
+    color: rgba(90, 91, 117, 0.8);
+    transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
     -webkit-appearance: none;
     border-radius: 0;
   }
-  input:focus, select:focus {
-    border-bottom: 1px solid rgb(23,122,190);
+  input:focus,
+  select:focus {
+    border-bottom: 1px solid rgb(23, 122, 190);
   }
   input::placeholder {
     color: transparent;
@@ -66,29 +69,29 @@
     text-transform: uppercase;
     pointer-events: none;
     position: absolute;
-    color: rgba(90, 91, 117, .8);
+    color: rgba(90, 91, 117, 0.8);
     font-size: 1.1rem;
     top: 0;
     left: 0;
     margin-top: 18px;
-    transition: all .3s ease-out;
-    -webkit-transition: all .3s ease-out;
-    -moz-transition: all .3s ease-out;
+    transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
   }
   input:focus:required:invalid {
     border-bottom: 1px solid darkred;
   }
-  input:required:invalid+label:after,
-  select:required:invalid+label:after {
-    content: '*';
+  input:required:invalid + label:after,
+  select:required:invalid + label:after {
+    content: "*";
   }
-  input:focus+label,
-  input:not(:placeholder-shown)+label,
-  select:focus+label,
-  select:not(:invalid)+label {
+  input:focus + label,
+  input:not(:placeholder-shown) + label,
+  select:focus + label,
+  select:not(:invalid) + label {
     font-size: 10px;
     margin-top: 0;
-    color: rgb(23,122,190);
+    color: rgb(23, 122, 190);
   }
   option[value=""][disabled] {
     display: none;
@@ -97,18 +100,13 @@
 
 <div class="form">
   <div class="label-float">
-    <input 
-      placeholder="" 
-      type="text" 
-      required
-      bind:value={id_proc}
-      >
+    <input placeholder="" type="text" required bind:value={id_proc} />
     <label>Identificação</label>
   </div>
 
   <div class="label-float">
     <select bind:value={pickClass} required>
-      <option value="" disabled selected></option>
+      <option value="" disabled selected />
       {#each classes as { value, text }}
         <option {value}>{text}</option>
       {/each}
@@ -124,28 +122,18 @@
   </div> -->
 
   <div class="label-float">
-    <input 
-      placeholder="" 
-      type="text" 
-      required
-      bind:value={status}
-      >
+    <input placeholder="" type="text" required bind:value={status} />
     <label>Status</label>
   </div>
 
   <div class="label-float">
-    <input 
-      placeholder="" 
-      type="text" 
-      required
-      bind:value={insc_imob}
-      >
+    <input placeholder="" type="text" required bind:value={insc_imob} />
     <label>Inscrição Imobiliária</label>
   </div>
 
-  <div class="label-float">  
+  <div class="label-float">
     <select bind:value={pickDist} required>
-      <option value="" disabled selected></option>
+      <option value="" disabled selected />
       {#each distritos as { value, text }}
         <option {value}>{text}</option>
       {/each}
@@ -154,4 +142,4 @@
   </div>
 </div>
 
-<Buttons {done} on:next={()=> dispatch('next', formObj)} on:back/>
+<Buttons {done} on:next={() => dispatch('next', formObj)} on:back />

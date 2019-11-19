@@ -1,9 +1,3 @@
-<script>
-  import { fade } from 'svelte/transition'
-
-  export let expanded = false
-</script>
-
 <style>
   .btn {
     margin: 0px;
@@ -25,12 +19,8 @@
   }
 </style>
 
-<button
-  type="button" 
-  class="btn" 
-  on:click
-  >
-    <span class="icon">
-      <slot></slot>
-    </span>
+<button type="button" class="btn" on:click>
+  <span class="icon">
+    <slot />
+  </span>
 </button>
